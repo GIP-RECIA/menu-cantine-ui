@@ -2,9 +2,12 @@
   "name": "menu-cantine",
   "version": "0.1.0",
   "private": true,
+  "main": "dist/menu-cantine.js",
+  "source": "src/components/menu-cantine.vue",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "prebuild": "babel node_modules/@vue/web-component-wrapper/dist/vue-wc-wrapper.js -o node_modules/@vue/web-component-wrapper/dist/vue-wc-wrapper.js",
+    "build": "vue-cli-service build --name menu-cantine --target wc src/components/MenuCantine.vue",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
