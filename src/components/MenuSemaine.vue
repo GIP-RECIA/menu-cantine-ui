@@ -31,7 +31,7 @@
       v-bind:gemrcn_list="gemRcnData">
     </modal>
     <section ref="semaineref" v-if="menuSemaine" class="semaine">
-      <vue-glide ref="glideref" :options="glideOptions" @change="calculMaxPlats" v-model="active" v-on:glide:resize="onresize()">
+      <vue-glide ref="glideref" :options="glideOptions" @change="calculMaxPlats" v-model="active" >
         <template slot="control">
           <button data-glide-dir="<" class="left" :class="{hide : hidePrev}">&lt;</button>
           <button data-glide-dir=">" class="right" :class="{hide : hideNext}" >&gt;</button>
@@ -158,7 +158,7 @@ export default {
   name: 'MenuSemaine',
   data () {
     return {
-      mode_env: (process.env.NODE_ENV === 'development' || config.mode_env),
+      mode_env: (process.env.NODE_ENV === 'development' || config.mode_env ),
       menuSemaine: '',
       debutPeriode: '',
       finPeriode: '',
@@ -200,6 +200,11 @@ export default {
     pauseBreakpoint(this, this.nbJour)
   },
 
+  mounted() {
+    this.$nextTick(function() {
+      window.addEventListener('resize', this.onresize);
+    })
+  },
   methods: {
 
     callPrevWeek: function () {
@@ -213,10 +218,12 @@ export default {
     },
 
     onresize: function () {
-      var nbView = this.$refs.glideref.glide.settings.perView
-      var nbBlanc = nbView - this.nbJour + this.active
-      if (nbBlanc > 0) {
-        this.active = this.active - nbBlanc
+      if (this.menuSemaine) {
+        var nbView = this.$refs.glideref.glide.settings.perView
+        var nbBlanc = nbView - this.nbJour + this.active
+        if (nbBlanc > 0) {
+          this.active = this.active - nbBlanc
+        }
       }
     },
 
@@ -228,7 +235,6 @@ export default {
     calculMaxPlats: function () {
       this.$nextTick(() => {
         var nbView = this.$refs.glideref.glide.settings.perView
-
         this.hideNext = this.nbJour <= (nbView + this.active)
         this.hidePrev = this.active <= 0
         var allMaxPlat = calculMaxSemaine(
