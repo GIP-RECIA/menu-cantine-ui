@@ -53,9 +53,11 @@
 
 <script>
 import config from './config.js'
+import oidc from '@uportal/open-id-connect';
 import { Glide, GlideSlide } from 'vue-glide-js'
 import MenuModal from '@/components/MenuModal'
 import MenuJour from '@/components/MenuJour'
+import fetchUserInfoAndOrg from '../services/fetchUserInfoAndOrgs';
 // import 'vue-glide-js/dist/vue-glide.css' en single file compoment les ccs doivent être importer dans la section css 
 
 function initPost (dJour, etab, noSem) {
