@@ -1,3 +1,3 @@
 export default {
-  api_url: 'https://localhost:8443/menuCantine/api/menu'
+  api_url: 'https://192.168.45.196:8443/menuCantine/api/menu'
 }

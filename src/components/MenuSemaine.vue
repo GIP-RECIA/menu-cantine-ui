@@ -1,5 +1,5 @@
 <template>
-  <div id="menucantine">
+  <div id="menusemaine">
     <select v-if="mode_env" v-model="selected" @change="loadMenu();">
       <option disabled value>Choisissez</option>
       <option value="0450782F">lycée VOLTAIRE</option>
@@ -13,7 +13,7 @@
       <option value="0451104F">EREA Simone VEIL 5</option>
       <option value="0451463W">EPLEFPA DU LOIRET - Site BELLEGARDE 51</option>
     </select>
-    <input v-if="mode_env" v-model="noSemaine" @change="loadMenu();">
+    <input v-if="mode_env || true" v-model="noSemaine" @change="loadMenu();">
     <div v-if="erreur">{{erreur}}</div>
 
     <header v-if="menuSemaine" class="titre">
@@ -56,7 +56,7 @@ import config from './config.js'
 import { Glide, GlideSlide } from 'vue-glide-js'
 import MenuModal from '@/components/MenuModal'
 import MenuJour from '@/components/MenuJour'
-import 'vue-glide-js/dist/vue-glide.css'
+// import 'vue-glide-js/dist/vue-glide.css' en single file compoment les ccs doivent être importer dans la section css 
 
 function initPost (dJour, etab, noSem) {
   return {
@@ -155,7 +155,7 @@ function traitementReponse (json, objvue) {
 }
 
 export default {
-  name: 'MenuCantine',
+  name: 'MenuSemaine',
   data () {
     return {
       mode_env: (process.env.NODE_ENV === 'development' || config.mode_env),
@@ -169,6 +169,7 @@ export default {
       erreur: '',
       showModal: false,
       gemRcnData: '',
+      // eslint-disable-next-line 
       maxPlats: (service, partie) => {
         return 0
       },
@@ -202,12 +203,12 @@ export default {
   methods: {
 
     callPrevWeek: function () {
-      console.log('prevWeek' + this.prevWeek)
+      // console.log('prevWeek' + this.prevWeek)
       this.loadMenu(this.prevWeek)
     },
 
     callNextWeek: function () {
-      console.log('nextWeek' + this.nextWeek)
+      // console.log('nextWeek' + this.nextWeek)
       this.loadMenu(this.nextWeek)
     },
 
@@ -224,7 +225,7 @@ export default {
       this.showModal = true
     },
 
-    calculMaxPlats: function (param) {
+    calculMaxPlats: function () {
       this.$nextTick(() => {
         var nbView = this.$refs.glideref.glide.settings.perView
 
@@ -269,7 +270,8 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-div#menucantine {
+@import '../../node_modules/vue-glide-js/dist/vue-glide.css';
+div#menusemaine {
   > header {
     display: table;
     margin-left:auto;
