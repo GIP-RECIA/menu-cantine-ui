@@ -53,10 +53,12 @@
 
 <script>
 import config from './config.js'
+// eslint-disable-next-line
 import oidc from '@uportal/open-id-connect';
 import { Glide, GlideSlide } from 'vue-glide-js'
 import MenuModal from '@/components/MenuModal'
 import MenuJour from '@/components/MenuJour'
+ // eslint-disable-next-line
 import fetchUserInfoAndOrg from '../services/fetchUserInfoAndOrgs';
 // import 'vue-glide-js/dist/vue-glide.css' en single file compoment les ccs doivent être importer dans la section css 
 
@@ -203,6 +205,8 @@ export default {
   },
 
   mounted() {
+    // eslint-disable-next-line
+    console.log(process.env.VUE_APP_USER_INFO_URI)
     this.$nextTick(function() {
       window.addEventListener('resize', this.onresize);
     })
