@@ -1,6 +1,6 @@
 <template>
   <div id="menusemaine">
-    <select v-if="mode_env" v-model="selected" @change="loadMenu();">
+    <select v-if="mode_dev" v-model="selected" @change="loadMenu();">
       <option disabled value>Choisissez</option>
       <option value="0450782F">lycée VOLTAIRE</option>
       <option value="0370038R">lycée GRANDMONT</option>
@@ -12,18 +12,21 @@
       <option value="0370036N">LGT BALZAC 2</option>
       <option value="0451104F">EREA Simone VEIL 5</option>
       <option value="0451463W">EPLEFPA DU LOIRET - Site BELLEGARDE 51</option>
+      <option value="0180005H">0180005H</option>
+      <option value="0370016S">0370016S</option>
     </select>
-    <input v-if="mode_env || true" v-model="noSemaine" @change="loadMenu();">
-    <div v-if="erreur">{{erreur}}</div>
-
-    <header v-if="menuSemaine" class="titre">
-      <span>Menu Cantine</span>
+    <input v-if="mode_dev" v-model="noSemaine" @change="loadMenu();">
+    <header  class="titre">
       <button v-if="prevWeek" @click="callPrevWeek()" type='button' >&lt;</button>
-      <span>du {{ debutPeriode }}</span><wbr/>
-      <span> au {{ finPeriode }}</span>
+      <div v-if="debutPeriode">
+      <span>Semaine </span><wbr/>
+      <span>du {{ debutPeriode }} </span><wbr/>
+      <span>au {{ finPeriode }} </span>
+      </div>
       <button v-if="nextWeek"  @click="callNextWeek()" type='button' >&gt;</button>
+      <h3 v-if="erreur">{{erreur}}</h3>
     </header>
-
+    
     <modal
       v-if="showModal"
       @close="showModal = false"
@@ -52,22 +55,21 @@
 </template>
 
 <script>
-import config from './config.js'
-// eslint-disable-next-line
-import oidc from '@uportal/open-id-connect';
 import { Glide, GlideSlide } from 'vue-glide-js'
 import MenuModal from '@/components/MenuModal'
 import MenuJour from '@/components/MenuJour'
  // eslint-disable-next-line
 import fetchUserInfoAndOrg from '../services/fetchUserInfoAndOrgs';
+import oidc from '@uportal/open-id-connect';
 // import 'vue-glide-js/dist/vue-glide.css' en single file compoment les ccs doivent être importer dans la section css 
 
-function initPost (dJour, etab, noSem) {
+function initPost (dJour, etab, noSem, encoded) {
   return {
     headers: {
-      Accept: 'application/json',
+      'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'X-COM-PERSIST': 'TRUE'
+      // 'X-COM-PERSIST': 'TRUE'
+      'Authorization': 'Bearer ' + encoded
     },
     method: 'POST',
     credentials: 'omit',
@@ -140,16 +142,18 @@ function pauseBreakpoint (objVue) {
 
 function traitementReponse (json, objvue) {
   if (json.ErrorCode) {
-    objvue.erreur = json
+    objvue.erreur = 'Menu Indisponible !'
     objvue.menuSemaine = ''
-    objvue.defaultStyle = { display: 'none' }
+    objvue.debutPeriode = json.debut
+    objvue.finPeriode = json.fin
+    objvue.nextWeek = json.nextWeek
+    objvue.prevWeek = json.previousWeek
   } else {
     objvue.menuSemaine = json
     objvue.debutPeriode = json.debut
     objvue.finPeriode = json.fin
     objvue.gemRcnData = json.allGemRcn
     objvue.jours = json.jours
-    objvue.defaultStyle = {}
     objvue.nbJour = json.nbJours
     objvue.nextWeek = json.nextWeek
     objvue.prevWeek = json.previousWeek
@@ -162,14 +166,14 @@ export default {
   name: 'MenuSemaine',
   data () {
     return {
-      mode_env: (process.env.NODE_ENV === 'development' || config.mode_env ),
+      mode_dev: (process.env.NODE_ENV === 'development' || process.env.VUE_APP_ENV === 'dev' ),
       menuSemaine: '',
       debutPeriode: '',
       finPeriode: '',
       jours: '',
       plat: '',
       selected: '',
-      noSemaine: '6',
+      noSemaine: '',
       erreur: '',
       showModal: false,
       gemRcnData: '',
@@ -190,7 +194,12 @@ export default {
         bound: true,
         perTouch: 1,
         rewind: false
-      }
+      },
+      info: {
+        organizations: [],
+        user: {},
+        uai: ''
+      },
     }
   },
   components: {
@@ -205,11 +214,16 @@ export default {
   },
 
   mounted() {
-    // eslint-disable-next-line
-    console.log(process.env.VUE_APP_USER_INFO_URI)
     this.$nextTick(function() {
       window.addEventListener('resize', this.onresize);
     })
+    var objVue = this;
+    this.fetchUserInfo().then( encoded => {
+      objVue.loadMenuEncoded(encoded);
+    }).catch(function(err){
+      // eslint-disable-next-line
+      console.log('erreur: ' + err);
+    });
   },
   methods: {
 
@@ -253,18 +267,50 @@ export default {
         }
       })
     },
+    async fetchUserInfo() {
+      // this.loadingState.user = false;
+      // this.loadingState.organization = false;
+      if (process.env.NODE_ENV !== 'development' ) {
+        const {user, organizations, bearer} =  await fetchUserInfoAndOrg(
+            process.env.VUE_APP_PORTAL_CONTEXT + process.env.VUE_APP_USER_INFO_URI,
+            process.env.VUE_APP_URL_API_ETAB,
+            'ESCOSIRENCourant',
+            false
+        );
+        this.info.user = Object.assign({}, this.info.user, user)
+        
+        // this.loadingState.user = true;
+        this.info.organizations = organizations
 
-    loadMenu: function (dJour) {
+        if (organizations) {
+          this.info.uai = organizations[0].code
+        }
+        
+        return bearer
+      }
+    },
+    async loadMenu(dJour) {
+      const encoded = (await oidc({ userInfoApiUrl: process.env.VUE_APP_PORTAL_CONTEXT + process.env.VUE_APP_USER_INFO_URI })).encoded
+      this.loadMenuEncoded(encoded, dJour);
+    },
+    
+    loadMenuEncoded(encoded, dJour) {
+      // this.fetchUserInfo() 
       this.menuSemaine = ''
       this.erreur = ''
 
       if (dJour) {
         this.noSemaine = ''
       }
+      
+      var uaiEtab = this.info.uai
+      if (! uaiEtab) {
+        uaiEtab = this.selected
+      } 
 
       fetch(
-        config.api_url,
-        initPost(dJour, this.selected, this.noSemaine)
+        process.env.VUE_APP_URL_REST_API,
+        initPost(dJour, uaiEtab, this.noSemaine, encoded)
       )
         .then(response => {
           if (response.ok) {
@@ -274,9 +320,11 @@ export default {
         })
         .then(json => traitementReponse(json, this))
         .catch(
-          error => (this.erreur = 'Erreur de connexion : ' + error.message)
+          () => (this.erreur = 'Erreur de connexion !')
         )
-    }
+    },
+    
+    
   }
 }
 </script>
@@ -297,6 +345,11 @@ div#menusemaine {
     }
     span {
       white-space: nowrap;
+    }
+    div {
+      display: inline-table;
+      max-width: 55vw;
+      text-align: center;
     }
   }
   button {
@@ -322,7 +375,7 @@ div#menusemaine {
     }
   }
   .semaine {
-    font-size: 80%;
+    font-size: 100%;
     display: flex;
     flex-wrap: wrap;
   }

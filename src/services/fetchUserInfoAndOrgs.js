@@ -54,6 +54,7 @@ export default async function(
       return {
         user: decoded,
         organizations: Object.values(data),
+        bearer: encoded
       };
     }
     // do nothing expect returning an empty value
