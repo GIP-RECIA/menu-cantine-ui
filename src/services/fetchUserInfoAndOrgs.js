@@ -64,7 +64,7 @@ export default async function(
     };
   } catch (err) {
     // eslint-disable-next-line
-    console.error(err);
+    console.log('error:' + err);
     return {
       user: {},
       organizations: [],

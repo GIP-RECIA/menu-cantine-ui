@@ -1,5 +1,5 @@
 <template>
-  <div id="menusemaine">
+  <div id="menusemaine" ref="menuSemaineRef">
     <select v-if="mode_dev" v-model="selected" @change="loadMenu();">
       <option disabled value>Choisissez</option>
       <option value="0450782F">lycée VOLTAIRE</option>
@@ -64,13 +64,15 @@ import oidc from '@uportal/open-id-connect';
 // import 'vue-glide-js/dist/vue-glide.css' en single file compoment les ccs doivent être importer dans la section css 
 
 function initPost (dJour, etab, noSem, encoded) {
+  var headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+  }
+  if (encoded != null) {
+    headers['Authorization'] = 'Bearer ' + encoded
+  }
   return {
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      // 'X-COM-PERSIST': 'TRUE'
-      'Authorization': 'Bearer ' + encoded
-    },
+    headers: headers,
     method: 'POST',
     credentials: 'omit',
     mode: 'cors',
@@ -133,11 +135,24 @@ function calculMaxJour (service, partie, maxPlats) {
 }
 
 function pauseBreakpoint (objVue) {
+  var largeur = parseInt(process.env.VUE_APP_BREAKPOINT_WIDTH)
+  var winWidth = window.innerWidth
+  var offsetWidth = document.getElementsByTagName('menu-cantine-menu-semaine')[0].offsetWidth
+  
+  largeur = largeur + ~~((winWidth - offsetWidth) / ( objVue.nbJour * 2)) 
+  objVue.breakpointsWidth = largeur
+  
   objVue.glideOptions['breakpoints'] = []
   for (var nbCol = 1; nbCol <= objVue.nbJour;) {
     var o = { perView: nbCol++ }
-    objVue.glideOptions['breakpoints'][nbCol * 275] = o
+    objVue.glideOptions['breakpoints'][nbCol * largeur ] = o
+    
   }
+  return ~~(window.innerWidth / largeur);
+}
+
+function nbViewByBreakpoint(objVue) {
+  return ~~(window.innerWidth / objVue.breakpointsWidth) 
 }
 
 function traitementReponse (json, objvue) {
@@ -157,13 +172,49 @@ function traitementReponse (json, objvue) {
     objvue.nbJour = json.nbJours
     objvue.nextWeek = json.nextWeek
     objvue.prevWeek = json.previousWeek
-    pauseBreakpoint(objvue)
+    // eslint-disable-next-line
+    var nbVisible = pauseBreakpoint(objvue)
+    objvue.glideOptions.animationDuration = 0
     objvue.glideOptions.perView = json.nbJours
+    var dateInit = json.requete.dateJour
+    var len
+    var i
+    for (i = 0, len = json.nbJours; i < len; i++) {
+      var jour = json.jours[i]
+      if (jour.date === dateInit) {
+        var pos = i + 1 - ~~((nbVisible + 1)/2)
+        // eslint-disable-next-line
+        console.log(nbVisible+'; '+pos + '; ' + len)
+        if (pos > 0 ) {
+          if (pos + nbVisible < len) {
+            objvue.active = pos
+          } else {
+            objvue.active = len - nbVisible
+          }
+        } else {
+          objvue.active = 0
+        }
+        // objvue.glideOptions.focusAt = 'center'
+        len = 0
+        // eslint-disable-next-line
+            console.log('date trouvé ' + i)
+      }
+    }
+    // eslint-disable-next-line
+    console.log(dateInit)
   }
 }
 
 export default {
   name: 'MenuSemaine',
+ /* computed: {
+    getActive (){return this.active},
+    setActive (arg){this.active = arg}
+  },
+*/
+  props: {
+    isDemo: Boolean
+  },
   data () {
     return {
       mode_dev: (process.env.NODE_ENV === 'development' || process.env.VUE_APP_ENV === 'dev' ),
@@ -187,6 +238,7 @@ export default {
       hidePrev: false,
       nextWeek: false,
       prevWeek: false,
+      breakpointsWidth: process.env.VUE_APP_BREAKPOINT_WIDTH,
       glideOptions: {
         type: 'slider',
         breakpoints: {},
@@ -210,20 +262,22 @@ export default {
   },
 
   created () {
-    pauseBreakpoint(this, this.nbJour)
+     pauseBreakpoint(this, this.nbJour)
   },
 
   mounted() {
     this.$nextTick(function() {
       window.addEventListener('resize', this.onresize);
     })
-    var objVue = this;
-    this.fetchUserInfo().then( encoded => {
-      objVue.loadMenuEncoded(encoded);
-    }).catch(function(err){
-      // eslint-disable-next-line
-      console.log('erreur: ' + err);
-    });
+    if (! this.isDemo) {
+      var objVue = this;
+      this.fetchUserInfo().then( encoded => {
+        objVue.loadMenuEncoded(encoded);
+      }).catch(function(err){
+        // eslint-disable-next-line
+        console.log('erreur: ' + err);
+      });
+    }
   },
   methods: {
 
@@ -239,7 +293,8 @@ export default {
 
     onresize: function () {
       if (this.menuSemaine) {
-        var nbView = this.$refs.glideref.glide.settings.perView
+      //  var nbView = this.$refs.glideref.glide.settings.perView
+        var nbView = nbViewByBreakpoint(this)
         var nbBlanc = nbView - this.nbJour + this.active
         if (nbBlanc > 0) {
           this.active = this.active - nbBlanc
@@ -253,8 +308,11 @@ export default {
     },
 
     calculMaxPlats: function () {
+      
       this.$nextTick(() => {
-        var nbView = this.$refs.glideref.glide.settings.perView
+        this.$refs.glideref.glide.settings.animationDuration = 1000
+        // var nbView = this.$refs.glideref.glide.settings.perView
+        var nbView = nbViewByBreakpoint(this)
         this.hideNext = this.nbJour <= (nbView + this.active)
         this.hidePrev = this.active <= 0
         var allMaxPlat = calculMaxSemaine(
@@ -285,13 +343,17 @@ export default {
         if (organizations) {
           this.info.uai = organizations[0].code
         }
-        
+
         return bearer
       }
     },
     async loadMenu(dJour) {
-      const encoded = (await oidc({ userInfoApiUrl: process.env.VUE_APP_PORTAL_CONTEXT + process.env.VUE_APP_USER_INFO_URI })).encoded
-      this.loadMenuEncoded(encoded, dJour);
+      if (this.isDemo) {
+        this.loadMenuEncoded(null, dJour);
+      } else {
+        const encoded = (await oidc({ userInfoApiUrl: process.env.VUE_APP_PORTAL_CONTEXT + process.env.VUE_APP_USER_INFO_URI })).encoded
+        this.loadMenuEncoded(encoded, dJour);
+      }
     },
     
     loadMenuEncoded(encoded, dJour) {
@@ -308,8 +370,14 @@ export default {
         uaiEtab = this.selected
       } 
 
+      var url;
+      if (this.isDemo ) {
+        url = process.env.VUE_APP_URL_REST_API_DEMO
+      } else {
+        url = process.env.VUE_APP_URL_REST_API
+      }
       fetch(
-        process.env.VUE_APP_URL_REST_API,
+        url,
         initPost(dJour, uaiEtab, this.noSemaine, encoded)
       )
         .then(response => {

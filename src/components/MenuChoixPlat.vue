@@ -58,6 +58,7 @@ div#menuchoixplat {
   span, .choix div {
       display: table;
       margin: auto;
+      white-space: nowrap
   }
   ul {
     padding-left:0;
