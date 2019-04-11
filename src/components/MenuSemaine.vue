@@ -138,21 +138,34 @@ function pauseBreakpoint (objVue) {
   var largeur = parseInt(process.env.VUE_APP_BREAKPOINT_WIDTH)
   var winWidth = window.innerWidth
   var offsetWidth = document.getElementsByTagName('menu-cantine-menu-semaine')[0].offsetWidth
-  
-  largeur = largeur + ~~((winWidth - offsetWidth) / ( objVue.nbJour * 2)) 
-  objVue.breakpointsWidth = largeur
-  
+  var nbJ = objVue.nbJour
+  var delta = ~~(2 * (winWidth - offsetWidth)/ ((nbJ+1) * nbJ) )
+
   objVue.glideOptions['breakpoints'] = []
-  for (var nbCol = 1; nbCol <= objVue.nbJour;) {
+  var idx = largeur
+  for (var nbCol = 1; nbCol <= nbJ;) {
+    idx  = idx + largeur + nbCol * delta
     var o = { perView: nbCol++ }
-    objVue.glideOptions['breakpoints'][nbCol * largeur ] = o
+    objVue.glideOptions['breakpoints'][idx] = o
+    // eslint-disable-next-line
+      console.log('index = '  + idx)
     
   }
-  return ~~(window.innerWidth / largeur);
+  return nbViewByBreakpoint(objVue)
 }
 
 function nbViewByBreakpoint(objVue) {
-  return ~~(window.innerWidth / objVue.breakpointsWidth) 
+    var bp = objVue.glideOptions['breakpoints']
+    var width = window.innerWidth
+    var nbView = 0
+    bp.every(function(item, index) {
+      if (width <= index ) {
+        nbView = item.perView
+        return false
+      } 
+      return true
+    })
+    return ~~(nbView)
 }
 
 function traitementReponse (json, objvue) {
@@ -242,7 +255,6 @@ export default {
       hidePrev: false,
       nextWeek: false,
       prevWeek: false,
-      breakpointsWidth: process.env.VUE_APP_BREAKPOINT_WIDTH,
       glideOptions: {
         type: 'slider',
         breakpoints: {},
