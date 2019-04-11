@@ -61,6 +61,7 @@ import MenuJour from '@/components/MenuJour'
  // eslint-disable-next-line
 import fetchUserInfoAndOrg from '../services/fetchUserInfoAndOrgs';
 import oidc from '@uportal/open-id-connect';
+import { nbViewByBreakpoint, setBreakpoint } from  '../services/breakpointService';
 // import 'vue-glide-js/dist/vue-glide.css' en single file compoment les ccs doivent être importer dans la section css 
 
 function initPost (dJour, etab, noSem, encoded) {
@@ -134,39 +135,9 @@ function calculMaxJour (service, partie, maxPlats) {
   return 0
 }
 
-function pauseBreakpoint (objVue) {
-  var largeur = parseInt(process.env.VUE_APP_BREAKPOINT_WIDTH)
-  var winWidth = window.innerWidth
-  var offsetWidth = document.getElementsByTagName('menu-cantine-menu-semaine')[0].offsetWidth
-  var nbJ = objVue.nbJour
-  var delta = ~~(2 * (winWidth - offsetWidth)/ ((nbJ+1) * nbJ) )
 
-  objVue.glideOptions['breakpoints'] = []
-  var idx = largeur
-  for (var nbCol = 1; nbCol <= nbJ;) {
-    idx  = idx + largeur + nbCol * delta
-    var o = { perView: nbCol++ }
-    objVue.glideOptions['breakpoints'][idx] = o
-    // eslint-disable-next-line
-      console.log('index = '  + idx)
-    
-  }
-  return nbViewByBreakpoint(objVue)
-}
 
-function nbViewByBreakpoint(objVue) {
-    var bp = objVue.glideOptions['breakpoints']
-    var width = window.innerWidth
-    var nbView = 0
-    bp.every(function(item, index) {
-      if (width <= index ) {
-        nbView = item.perView
-        return false
-      } 
-      return true
-    })
-    return ~~(nbView)
-}
+
 
 function traitementReponse (json, objvue) {
   if (json.ErrorCode) {
@@ -186,7 +157,7 @@ function traitementReponse (json, objvue) {
     objvue.nextWeek = json.nextWeek
     objvue.prevWeek = json.previousWeek
     // eslint-disable-next-line
-    var nbVisible = pauseBreakpoint(objvue)
+    var nbVisible = setBreakpoint(objvue.nbJour, objvue.glideOptions)
     objvue.glideOptions.animationDuration = 0
     objvue.glideOptions.perView = json.nbJours
     var dateInit = json.requete.dateJour
@@ -278,7 +249,7 @@ export default {
   },
 
   created () {
-     pauseBreakpoint(this, this.nbJour)
+     setBreakpoint(this.nbJour, this.glideOptions)
   },
 
   mounted() {
@@ -310,13 +281,14 @@ export default {
     onresize: function () {
       if (this.menuSemaine) {
       //  var nbView = this.$refs.glideref.glide.settings.perView
-        var nbView = nbViewByBreakpoint(this)
+        var nbView = nbViewByBreakpoint(this.glideOptions.breakpoints)
         var nbBlanc = nbView - this.nbJour + this.active
         if (nbBlanc > 0) {
           this.active = this.active - nbBlanc
         }
       }
     },
+
 
     displayModal: function (plat) {
       this.plat = plat
@@ -326,7 +298,7 @@ export default {
     calculMaxPlats: function () {
       
      // var nbView = this.$refs.glideref.glide.settings.perView
-        var nbView = nbViewByBreakpoint(this)
+        var nbView = nbViewByBreakpoint(this.glideOptions.breakpoints)
         this.hideNext = this.nbJour <= (nbView + this.active)
         this.hidePrev = this.active <= 0
         var allMaxPlat = calculMaxSemaine(
