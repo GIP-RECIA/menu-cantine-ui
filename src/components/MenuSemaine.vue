@@ -61,137 +61,9 @@ import MenuJour from '@/components/MenuJour'
  // eslint-disable-next-line
 import fetchUserInfoAndOrg from '../services/fetchUserInfoAndOrgs';
 import oidc from '@uportal/open-id-connect';
-import { nbViewByBreakpoint, setBreakpoint } from  '../services/breakpointService';
+import { nbViewByBreakpoint, initBreakpoints, activeByBreakpoint } from  '../services/breakpointService';
+import { calculMaxJour , calculMaxSemaine } from  '../services/calculMaximum';
 // import 'vue-glide-js/dist/vue-glide.css' en single file compoment les ccs doivent être importer dans la section css 
-
-function initPost (dJour, etab, noSem, encoded) {
-  var headers = {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json',
-  }
-  if (encoded != null) {
-    headers['Authorization'] = 'Bearer ' + encoded
-  }
-  return {
-    headers: headers,
-    method: 'POST',
-    credentials: 'omit',
-    mode: 'cors',
-    body: JSON.stringify({
-      semaine: noSem,
-      dateJour: dJour,
-      uai: etab
-    })
-  }
-}
-
-function calculMaxSemaine (jours, startAt, perView) {
-  var maxSemaine = {}
-  if (perView) {
-    var idxJour
-    var stopAt = startAt + perView
-    for (idxJour = startAt; idxJour < stopAt; idxJour++) {
-      var jour = jours[idxJour]
-      if (jour) {
-        var maxJour = jour.serviceChoixNbPlats
-        if (maxJour) {
-          for (const service in maxJour) {
-            var ssMenu = maxJour[service]
-            if (ssMenu) {
-              var ssMenuMax = maxSemaine[service]
-              if (ssMenuMax) {
-                for (const choix in ssMenu) {
-                  var nb = ssMenu[choix]
-                  if (nb) {
-                    var max = ssMenuMax[choix]
-                    if (nb > (max || -1)) {
-                      ssMenuMax[choix] = nb
-                    }
-                  }
-                }
-              } else {
-                // on clone
-                maxSemaine[service] = JSON.parse(JSON.stringify(ssMenu))
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  return maxSemaine
-}
-
-function calculMaxJour (service, partie, maxPlats) {
-  if (maxPlats) {
-    maxPlats = maxPlats[service]
-    if (maxPlats) {
-      var nb = maxPlats[partie]
-      if (nb) {
-        return nb
-      }
-    }
-  }
-  return 0
-}
-
-
-
-
-
-function traitementReponse (json, objvue) {
-  if (json.ErrorCode) {
-    objvue.erreur = 'Menu Indisponible !'
-    objvue.menuSemaine = ''
-    objvue.debutPeriode = json.debut
-    objvue.finPeriode = json.fin
-    objvue.nextWeek = json.nextWeek
-    objvue.prevWeek = json.previousWeek
-  } else {
-    objvue.menuSemaine = json
-    objvue.debutPeriode = json.debut
-    objvue.finPeriode = json.fin
-    objvue.gemRcnData = json.allGemRcn
-    objvue.jours = json.jours
-    objvue.nbJour = json.nbJours
-    objvue.nextWeek = json.nextWeek
-    objvue.prevWeek = json.previousWeek
-    // eslint-disable-next-line
-    var nbVisible = setBreakpoint(objvue.nbJour, objvue.glideOptions)
-    objvue.glideOptions.animationDuration = 0
-    objvue.glideOptions.perView = json.nbJours
-    var dateInit = json.requete.dateJour
-    var len
-    var i
-    for (i = 0, len = json.nbJours; i < len; i++) {
-      var jour = json.jours[i]
-      if (jour.date === dateInit) {
-        var pos = i + 1 - ~~((nbVisible + 1)/2)
-        // eslint-disable-next-line
-        console.log(nbVisible+'; '+pos + '; ' + len)
-        if (pos > 0 ) {
-          if (pos + nbVisible < len) {
-            objvue.active = pos
-          } else {
-            objvue.active = len - nbVisible
-          }
-        } else {
-          objvue.active = 0
-        }
-        // objvue.glideOptions.focusAt = 'center'
-        len = 0
-        // eslint-disable-next-line
-            console.log('date trouvé ' + i)
-      }
-    }
-    // eslint-disable-next-line
-    console.log(dateInit)
-      // on rétablit l'animation
-     objvue.$nextTick(() => {
-        objvue.$refs.glideref.glide.settings.animationDuration = 1000
-      })  
-  }
-}
 
 export default {
   name: 'MenuSemaine',
@@ -249,7 +121,7 @@ export default {
   },
 
   created () {
-     setBreakpoint(this.nbJour, this.glideOptions)
+     // setBreakpoint(this.nbJour, this.glideOptions)
   },
 
   mounted() {
@@ -266,8 +138,8 @@ export default {
       });
     }
   },
-  methods: {
 
+  methods: {
     callPrevWeek: function () {
       // console.log('prevWeek' + this.prevWeek)
       this.loadMenu(this.prevWeek)
@@ -362,23 +234,68 @@ export default {
       } else {
         url = process.env.VUE_APP_URL_REST_API
       }
+      var headers = {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        }
+      if (encoded != null) {
+        headers['Authorization'] = 'Bearer ' + encoded
+      }
+
       fetch(
         url,
-        initPost(dJour, uaiEtab, this.noSemaine, encoded)
-      )
-        .then(response => {
+        //initPost(dJour, uaiEtab, this.noSemaine, encoded)
+        {
+          headers: headers,
+          method: 'POST',
+          credentials: 'omit',
+          mode: 'cors',
+          body: JSON.stringify({
+            semaine: this.noSemaine,
+            dateJour: dJour,
+            uai: uaiEtab
+          })
+        }
+      ) .then(response => {
           if (response.ok) {
             return response.json()
           }
           return { ErrorCode: response }
         })
-        .then(json => traitementReponse(json, this))
+        .then(json => this.traitementReponse(json))
         .catch(
           () => (this.erreur = 'Erreur de connexion !')
         )
     },
-    
-    
+    traitementReponse (json) {
+      if (json.ErrorCode) {
+        this.erreur = 'Menu Indisponible !'
+        this.menuSemaine = ''
+        this.debutPeriode = json.debut
+        this.finPeriode = json.fin
+        this.nextWeek = json.nextWeek
+        this.prevWeek = json.previousWeek
+      } else {
+        this.menuSemaine = json
+        this.debutPeriode = json.debut
+        this.finPeriode = json.fin
+        this.gemRcnData = json.allGemRcn
+        this.jours = json.jours
+        this.nbJour = json.nbJours
+        this.nextWeek = json.nextWeek
+        this.prevWeek = json.previousWeek
+        this.glideOptions.animationDuration = 0
+        this.glideOptions.perView = json.nbJours
+        this.glideOptions.breakpoints = initBreakpoints(this.nbJour)
+        
+        this.active = activeByBreakpoint(this.glideOptions.breakpoints, json.requete.dateJour, json.nbJours, json.jours)
+        
+          // on rétablit l'animation
+        this.$nextTick(() => {
+          this.$refs.glideref.glide.settings.animationDuration = 1000
+        })  
+      }
+    }
   }
 }
 </script>

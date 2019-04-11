@@ -12,25 +12,42 @@ function nbViewByBreakpoint(glideBreakpoints) {
     return ~~(nbView);
 }
 
-function setBreakpoint (nbJour, glideOptions) {
+function initBreakpoints (nbJour) {
     // nbJour = this.nbJour; glideOptions = this.glideOptions
     var largeur = parseInt(process.env.VUE_APP_BREAKPOINT_WIDTH)
     var winWidth = window.innerWidth;
     var offsetWidth = document.getElementsByTagName('menu-cantine-menu-semaine')[0].offsetWidth;
     var delta = ~~(2 * (winWidth - offsetWidth)/ ((nbJour +1) * nbJour) )
   
-    glideOptions.breakpoints = [];
+    var breakpoints = [];
 
     var idx = largeur;
     for (var nbCol = 1; nbCol <= nbJour;) {
       idx  = idx + largeur + nbCol * delta;
       var o = { perView: nbCol++ };
-      glideOptions.breakpoints[idx] = o;
-      // eslint-disable-next-line
-        console.log('index = '  + idx);
-      
+      breakpoints[idx] = o;
     }
-    return nbViewByBreakpoint(glideOptions.breakpoints);
+    return breakpoints;
   }
 
-export { nbViewByBreakpoint, setBreakpoint };
+function activeByBreakpoint(breakpoints, dateInit, nbJours, jours) {
+    // dateInit = json.requete.dateJour, nbJours = json.nbJours, jours = json.jours
+    var nbVisible = nbViewByBreakpoint(breakpoints);
+    var len;
+    var i;
+    for (i = 0, len = nbJours; i < len; i++) {
+      var jour = jours[i];
+      if (jour.date === dateInit) {
+        var pos = i + 1 - ~~((nbVisible + 1)/2);
+        if (pos > 0 ) {
+          if (pos + nbVisible < len) {
+            return pos;
+          } 
+          return len - nbVisible;
+        }
+        return  0;
+        
+      }
+    }
+}
+export { nbViewByBreakpoint, initBreakpoints , activeByBreakpoint};
