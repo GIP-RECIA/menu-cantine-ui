@@ -202,6 +202,10 @@ function traitementReponse (json, objvue) {
     }
     // eslint-disable-next-line
     console.log(dateInit)
+      // on rétablit l'animation
+     objvue.$nextTick(() => {
+        objvue.$refs.glideref.glide.settings.animationDuration = 1000
+      })  
   }
 }
 
@@ -309,9 +313,7 @@ export default {
 
     calculMaxPlats: function () {
       
-      this.$nextTick(() => {
-        this.$refs.glideref.glide.settings.animationDuration = 1000
-        // var nbView = this.$refs.glideref.glide.settings.perView
+     // var nbView = this.$refs.glideref.glide.settings.perView
         var nbView = nbViewByBreakpoint(this)
         this.hideNext = this.nbJour <= (nbView + this.active)
         this.hidePrev = this.active <= 0
@@ -323,7 +325,7 @@ export default {
         this.maxPlats = (service, partie) => {
           return calculMaxJour(service, partie, allMaxPlat)
         }
-      })
+      
     },
     async fetchUserInfo() {
       // this.loadingState.user = false;
