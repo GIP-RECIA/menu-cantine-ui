@@ -7,13 +7,13 @@
       <option value="0370032J">lycée CLOUET</option>
       <option value="0410899E">lycée hôtelier de Blois</option>
       <option value="0180823X">lycée VAUVERT 6</option>
-      <option value="0281047L">LP Jean-Félix PAULSEN 6</option>
+      <option value="0280700J">Jean-Félix PAULSEN 6</option>
       <option value="0360017Y">EPLEFPA de l'INDRE 4</option>
       <option value="0370036N">LGT BALZAC 2</option>
       <option value="0451104F">EREA Simone VEIL 5</option>
       <option value="0451463W">EPLEFPA DU LOIRET - Site BELLEGARDE 51</option>
-      <option value="0180005H">0180005H</option>
-      <option value="0370016S">0370016S</option>
+      <option value="0180005H">0180005H 14 15</option>
+      <option value="0370016S">0370016S 14 15</option>
     </select>
     <input v-if="mode_dev" v-model="noSemaine" @change="loadMenu();">
     <header  class="titre">
@@ -141,12 +141,10 @@ export default {
 
   methods: {
     callPrevWeek: function () {
-      // console.log('prevWeek' + this.prevWeek)
       this.loadMenu(this.prevWeek)
     },
 
     callNextWeek: function () {
-      // console.log('nextWeek' + this.nextWeek)
       this.loadMenu(this.nextWeek)
     },
 
@@ -227,9 +225,13 @@ export default {
       if (! uaiEtab) {
         uaiEtab = this.selected
       } 
-
+      
       var url;
       if (this.isDemo ) {
+        
+        if (this.selected) {
+          uaiEtab = this.selected
+        }
         url = process.env.VUE_APP_URL_REST_API_DEMO
       } else {
         url = process.env.VUE_APP_URL_REST_API
@@ -238,9 +240,10 @@ export default {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
         }
+
       if (encoded != null) {
         headers['Authorization'] = 'Bearer ' + encoded
-      }
+      } 
 
       fetch(
         url,
