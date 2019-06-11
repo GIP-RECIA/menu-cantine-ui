@@ -1,7 +1,6 @@
 {
-  "name": "menu-cantine",
+  "name": "@gip-recia/menu-cantine",
   "version": "0.1.0",
-  "private": true,
   "main": "dist/menu-cantine.js",
   "scripts": {
     "serve": "vue-cli-service serve",
