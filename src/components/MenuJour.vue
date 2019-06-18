@@ -4,7 +4,7 @@
     <header>
       <span class="name" >{{jour.jour}}</span>
       <div>
-        <span class="date">{{jour.date}}</span>
+        <span class="date">{{jour.date | dayOnly}}</span>
       </div>
     </header>
     <template  v-for="(service) in jour.destinations" >
@@ -51,7 +51,14 @@ export default {
   },
   components: {
     'choixplat': MenuChoixPlat
+  },
+  filters: {
+    dayOnly: function(jour) {
+      if (!jour) return ''
+      return jour.split('/')[0]
+    }
   }
+
 }
 </script>
 

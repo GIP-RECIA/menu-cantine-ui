@@ -19,9 +19,11 @@
     <header  class="titre">
       <div v-if="debutPeriode">
         <button v-if="prevWeek" @click="callPrevWeek()" type='button' >&lt;</button>
-        <!-- span>Semaine </span><wbr/-->
-        <span>du {{ debutPeriode }} </span><wbr/>
-        <span>au {{ finPeriode }}</span>
+        <div>
+        <span>Semaine </span><wbr/>
+        <span>du {{ debutPeriode | minusYear}} </span><wbr/>
+        <span>au {{ finPeriode | minusYear }}</span>
+        </div>
         <button v-if="nextWeek"  @click="callNextWeek()" type='button' >&gt;</button>
       </div>
       <h3 v-if="erreur">{{erreur}}</h3>
@@ -121,7 +123,13 @@ export default {
     [Glide.name]: Glide,
     [GlideSlide.name]: GlideSlide
   },
-
+  filters: {
+    minusYear: function(jour) {
+      if (!jour) return ''
+      var tab = jour.split(' ')
+      return '' + tab[0] + ' ' + tab[1]
+    }
+  },
   created () {
      // setBreakpoint(this.nbJour, this.glideOptions)
   },
@@ -141,6 +149,7 @@ export default {
     }
   },
 
+  
   methods: {
     callPrevWeek: function () {
       this.loadMenu(this.prevWeek)
@@ -347,10 +356,13 @@ div#menusemaine {
       white-space: nowrap;
     }
     div {
-      display: inline;
+      display: inline-flex;
       max-width: 55vw;
       text-align: center;
       color: white;
+      div {
+        display: inline-block;
+      }
     }
   }
   button {
