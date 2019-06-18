@@ -3,19 +3,22 @@
     <div class="modal-mask">
       <div class="modal-wrapper">
         <div class="modal-container">
-          <span>{{plat.name}}</span>
+          <header>{{plat.name}}</header>
           <div class="ifPlat" v-if="plat.gemrcn">
             <div class="forColor" v-for="(code_gemrcn, index) in plat.gemrcn" :key="index">
-              <span :style="'color:' + gemrcn_list[code_gemrcn].color + ';'">{{gemrcn_list[code_gemrcn].comment}}</span>
+              <span class="color" :style="'background-color:' + gemrcn_list[code_gemrcn].color + ';'"/>
+              <span >{{gemrcn_list[code_gemrcn].comment}}</span>
             </div>
           </div>
           <div class="ifAllergens" v-if="plat.allergens && plat.allergens.length">
+            <span class="color" :style="'background-color: #fb8f03'" ></span>
             <span>Allergène&#8239;:</span>
             <ul>
               <li v-for="(elem, index) in plat.allergens" :key="index">{{elem}}</li>
             </ul>
           </div>
           <div class="ifNutrition" v-if="plat.nutritions && plat.nutritions.length">
+            <span class="color" :style="'background-color: #093ddf'" ></span>
             <span>Nutrition&#8239;:</span>
             <ul>
               <li v-for="(elem, index) in plat.nutritions" :key="index">
@@ -25,7 +28,9 @@
               </li>
             </ul>
           </div>
-          <button class="modal-default-button" @click="$emit('close')">X</button>
+          <footer>
+            <button class="modal-default-button" @click="$emit('close')">Fermer</button>
+          </footer>
         </div>
       </div>
     </div>
@@ -60,8 +65,21 @@ export default {
     vertical-align: middle;
 
     .modal-container {
+      header {
+        //font-size: 110%;
+        font-weight: bold;
+        //padding-bottom: 0.5em;
+      }
+      footer {
+        margin-top: 0.5em; 
+        text-align: center;
+      }
+      div {
+        margin-top: 0.5em;
+      }
       text-align: left;
-      width: 300px;
+      min-width: 300px;
+      width: 50vw;
       margin: 0px auto;
       padding: 20px 30px;
       background-color: #fff;
@@ -71,6 +89,13 @@ export default {
       font-family: Helvetica, Arial, sans-serif;
       ul {
         margin: 0px;
+      }
+      span.color {
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        border-radius: 0.5em;
+        margin-right: 1px; 
       }
     }
   }
