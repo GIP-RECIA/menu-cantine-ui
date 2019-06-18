@@ -1,7 +1,25 @@
 {
   "name": "@gip-recia/menu-cantine",
-  "version": "0.1.0",
+  "version": "0.1.1",
+  "description": "Affichage des menus de cantine des établissements scolaire du secondaire en région centre.",
+  "keywords": [ "Menus cantine", "gip-recia",  "région centre", "esco" ],
+  "bugs" : {
+    "url" : "https://github.com/GIP-RECIA/menu-cantine-ui/issues"
+  },
+  "homepage": "https://github.com/uPortal-contrib/GIP-RECIA/menu-cantine-ui#readme",
+  "license": "Apache-2.0",
+  "author": "Pierre Legay <pierre.legay@recia.fr>",
   "main": "dist/menu-cantine.js",
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GIP-RECIA/menu-cantine-ui.git"
+  },
+
+  "publishConfig": {
+    "access": "public"
+  },
+
   "scripts": {
     "serve": "vue-cli-service serve",
     "prebuild": "babel node_modules/@vue/web-component-wrapper/dist/vue-wc-wrapper.js -o node_modules/@vue/web-component-wrapper/dist/vue-wc-wrapper.js",
