@@ -1,7 +1,8 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <menu-semaine></menu-semaine>
+    <!-- fixe la fonte-size identique au portail -->
+  <div id="app" style="font-size: 14px">
+    <!-- img alt="Vue logo" src="./assets/logo.png" -->
+    <menu-semaine is-demo></menu-semaine>
   </div>
 </template>
 

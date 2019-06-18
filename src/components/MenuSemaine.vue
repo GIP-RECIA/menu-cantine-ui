@@ -17,13 +17,13 @@
     </select>
     <input v-if="mode_dev" v-model="noSemaine" @change="loadMenu();">
     <header  class="titre">
-      <button v-if="prevWeek" @click="callPrevWeek()" type='button' >&lt;</button>
       <div v-if="debutPeriode">
-      <span>Semaine </span><wbr/>
-      <span>du {{ debutPeriode }} </span><wbr/>
-      <span>au {{ finPeriode }} </span>
+        <button v-if="prevWeek" @click="callPrevWeek()" type='button' >&lt;</button>
+        <!-- span>Semaine </span><wbr/-->
+        <span>du {{ debutPeriode }} </span><wbr/>
+        <span>au {{ finPeriode }}</span>
+        <button v-if="nextWeek"  @click="callNextWeek()" type='button' >&gt;</button>
       </div>
-      <button v-if="nextWeek"  @click="callNextWeek()" type='button' >&gt;</button>
       <h3 v-if="erreur">{{erreur}}</h3>
     </header>
     
@@ -35,6 +35,7 @@
     </modal>
     <section ref="semaineref" v-if="menuSemaine" class="semaine">
       <vue-glide ref="glideref" :options="glideOptions" @change="calculMaxPlats" v-model="active" >
+        <div> DIV DE TEST </div>
         <template slot="control">
           <button data-glide-dir="<" class="left" :class="{hide : hidePrev}">&lt;</button>
           <button data-glide-dir=">" class="right" :class="{hide : hideNext}" >&gt;</button>
@@ -104,7 +105,8 @@ export default {
         perView: 5,
         bound: true,
         perTouch: 1,
-        rewind: false
+        rewind: false,
+        gap: 0
       },
       info: {
         organizations: [],
@@ -267,7 +269,7 @@ export default {
         })
         .then(json => this.traitementReponse(json))
         .catch(
-          () => (this.erreur = 'Erreur de connexion !')
+          (error) => (this.erreur = 'Erreur de connexion !' + error)
         )
     },
     traitementReponse (json) {
@@ -304,14 +306,38 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-@import '../../node_modules/vue-glide-js/dist/vue-glide.css';
+//@import '../../node_modules/vue-glide-js/dist/vue-glide.css';
+@import '../css/vue-glide.css';
 div#menusemaine {
+  .semaine {
+    font-size: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: transparent;
+    /deep/ ul {
+      margin-top: 0;
+    }
+  }
   > header {
-    display: table;
+    display: block;
     margin-left:auto;
     margin-right: auto;
     font-size: 110%;
     white-space: pre-wrap;
+    text-align: center;
+    background-color: #434343;
+    button {
+      color: #686868;
+      border: 0px;
+      opacity: 1;
+      background-color: transparent;
+      font-size: 32px;
+      font-weight: bold;
+      margin-top: -10px;
+      margin-bottom: -12px;
+      padding-left: 16px;
+      padding-right: 16px;
+    }
     > span:first-child {
       display: table;
       margin-left: auto;
@@ -321,12 +347,14 @@ div#menusemaine {
       white-space: nowrap;
     }
     div {
-      display: inline-table;
+      display: inline;
       max-width: 55vw;
       text-align: center;
+      color: white;
     }
   }
   button {
+    color: #686868;
     border-radius: 18px;
     border: 2px solid white;
     background-color: #fff;
@@ -348,10 +376,6 @@ div#menusemaine {
       }
     }
   }
-  .semaine {
-    font-size: 100%;
-    display: flex;
-    flex-wrap: wrap;
-  }
+  
 }
 </style>

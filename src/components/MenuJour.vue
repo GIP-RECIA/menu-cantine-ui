@@ -26,10 +26,10 @@
                         >
             </choixplat>
           </li>
-           <footer>&nbsp;</footer>
         </ul>
       </article>
     </template>
+    <footer>&nbsp;</footer>
   </article>
 </template>
 <script>
@@ -58,19 +58,20 @@ export default {
 <style scoped lang='scss'>
 
 article#menujour {
-  border: 0px solid red;
-  margin-top: 1em;
+  border-left: 1px solid #e1e1e1;
+  border-right: 1px solid #e1e1e1;
+  margin-top: 0;
 
   article.service {
     > ul {
       overflow: hidden;
     }
     > header {
-      color: black;
-      background-color: transparent;
+      color: white;
+    //  background-color: transparent;
       font-size: 110%;
-      padding-bottom: 0px;
-      padding-top:0.5em;
+    //  padding-bottom: 0px;
+     // padding-top:0.5em;
     }
   }
 
@@ -96,11 +97,12 @@ article#menujour {
     }
   }
   header {
-      margin-left: 8px;
-      margin-right : 8px;
-      padding-top: 0.5em;
-      padding-bottom: 0.5em;
-    }
+    //margin-top: 0.5em;
+    //margin-left: 8px;
+    //margin-right : 8px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
   > header {
     > span {
       font-size: 125%;
@@ -111,7 +113,7 @@ article#menujour {
     }
   }
   article.service {
-    margin-top:0.5em;
+    //margin-top:0.5em;
     // margin-bottom: 1.5em;
   }
 
@@ -122,7 +124,7 @@ article#menujour {
   }
 
   li.partie {
-    margin-top: 1em;
+    //margin-top: 1em;
     font-size: 95%;
     list-style-type: none;
     > span {
@@ -149,53 +151,52 @@ article#menujour {
   }
 }
 
- header {
-   color:White;
- }
+
 
 .lundi {
-  header, footer{
-  background-color: #ce9f45;
+  .service > header, footer{
+    background-color: #ce9f45;
   }
 }
 .mardi {
-  header, footer {
+  .service >header, footer {
     background-color: #b04f46;
   }
 }
 .mercredi {
-  header, footer {
+  .service >header, footer {
   background-color: #b02a6f;
   }
 }
 
 .jeudi {
-  header, footer {
+  .service >header, footer {
     background-color: #682c72;
   }
 }
 .vendredi {
-  header, footer {
+  .service >header, footer {
     background-color: #353f7c;
   }
 }
 .samedi {
-  header, footer {
+  .service >header, footer {
     background-color: #61998a;
   }
 }
 .dimanche {
-  header, footer {
+  .service >header, footer {
   background-color: #e8cf80;
   }
 }
   footer {
     max-height: 1em;
     display:block;
-    margin-top:0.5em;
+    //margin-top:0.5em;
     // margin-bottom: 0.5em;
-    margin-left: 8px;
-    margin-right: 8px;
+   // margin-left: 8px;
+   // margin-right: 8px;
+    //background-color: transparent;
   }
 
 </style>

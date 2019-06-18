@@ -44,10 +44,10 @@ export default {
 <style scoped lang='scss'>
 div#menuchoixplat {
   header {
-    margin-left: 8px;
-    margin-right : 8px;
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
+    //margin-left: 8px;
+    //margin-right : 8px;
+    padding-top: 4px;
+    padding-bottom: 4px;
     &.vide {
       background-color: transparent;
     }
@@ -63,7 +63,8 @@ div#menuchoixplat {
   ul {
     padding-left:0;
     li.choix {
-      margin-top:0.2em;
+      margin-top:0.5em;
+      margin-bottom: 0.5em;
       // height: 1em;
       font-size: 100%;
       list-style-type: none;
@@ -83,32 +84,33 @@ div#menuchoixplat {
   }
 }
  header {
-   color:White;
+   background-color: #e1e1e1;
+   color:black;
  }
 
 span.allergen {
   vertical-align: top;
   font-size: 75%;
 }
-.lundi header {
+.lundi header deleted {
   background-color: #ce9f45;
 }
-.mardi header {
+.mardi header deleted{
   background-color: #b04f46;
 }
-.mercredi header {
+.mercredi header deleted{
   background-color: #b02a6f;
 }
-.jeudi header {
+.jeudi header deleted{
   background-color: #682c72;
 }
-.vendredi header {
+.vendredi header deleted{
   background-color: #353f7c;
 }
-.samedi header {
+.samedi header deleted{
   background-color: #61998a;
 }
-.dimanche header {
+.dimanche header deleted{
   background-color: #e8cf80;
 }
 </style>
