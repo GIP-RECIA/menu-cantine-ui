@@ -336,9 +336,10 @@ div#menusemaine {
     text-align: center;
     background-color: #434343;
     button {
-      color: #686868;
+      //color: #686868;
+      //color: #e1e1e1;
       border: 0px;
-      opacity: 1;
+      //opacity: 1;
       background-color: transparent;
       font-size: 32px;
       font-weight: bold;
@@ -366,19 +367,20 @@ div#menusemaine {
     }
   }
   button {
-    color: #686868;
+    //color: #686868;
+    color: #e1e1e1;
     border-radius: 18px;
-    border: 2px solid white;
-    background-color: #fff;
-    opacity: 0.5;
+    border: 2px solid transparent;
+    background-color: transparent;
+    //opacity: 0.5;
     font-size: 32px;
     font-weight: bold;
     &[data-glide-dir]{
       &.hide {
         display: none;
       }
-      position: fixed;
-      top: 50vh ;
+      position: absolute;
+      top: 0 ;
 
       &.right {
         right: 0;

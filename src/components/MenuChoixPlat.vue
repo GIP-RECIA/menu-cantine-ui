@@ -16,8 +16,8 @@
               >&nbsp;
           </span>
           <span>{{choix.name}}</span>
-          <span v-if="choix.nutritions">*</span>
-          <span v-if="choix.allergens && (choix.allergens.length > 0)" class="allergen">Allergène</span>
+          <span v-if="choix.nutritions" class="nutrition colorText">N</span>
+          <span v-if="choix.allergens && (choix.allergens.length > 0)" class="allergen colorText">A</span>
         </div>
         <span v-else>{{choix.name}}</span>
       </li>
@@ -78,6 +78,21 @@ div#menuchoixplat {
             height: 1em;
             border-radius: 0.5em;
           }
+          &.colorText {
+            border-radius: 1em;
+            padding-left: 0.4em;
+            padding-right: 0.4em;
+            font-size: 75%;
+            color: white;  
+            vertical-align: top;
+            margin-left:1px;
+          }
+          &.allergen {
+            background-color: #fb8f03
+          }
+          &.nutrition {
+            background-color: #093ddf
+          }
         }
       }
     }
@@ -88,10 +103,9 @@ div#menuchoixplat {
    color:black;
  }
 
-span.allergen {
-  vertical-align: top;
-  font-size: 75%;
-}
+
+
+
 .lundi header deleted {
   background-color: #ce9f45;
 }
