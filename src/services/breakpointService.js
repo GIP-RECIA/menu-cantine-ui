@@ -25,7 +25,13 @@ function initBreakpoints (nbJour) {
     // nbJour = this.nbJour; glideOptions = this.glideOptions
     var largeur = parseInt(process.env.VUE_APP_BREAKPOINT_WIDTH)
     var winWidth = window.innerWidth;
-    var offsetWidth = document.querySelector('div#menusemaine').offsetWidth;
+    var offsetWidth;
+    var root = document.querySelector('menu-cantine-menu-semaine');
+    
+    if (! root) {
+      root = document.querySelector('div#menusemaine');
+    }
+    offsetWidth = root.offsetWidth;
     var delta = ~~(2 * (winWidth - offsetWidth)/ ((nbJour +1) * nbJour) )
   
     var breakpoints = [];
