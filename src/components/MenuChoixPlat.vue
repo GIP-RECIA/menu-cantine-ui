@@ -51,6 +51,10 @@ div#menuchoixplat {
     &.vide {
       background-color: transparent;
     }
+    span {
+      margin-left: auto;
+    }
+  
   }
   .vide.vide0 {
     display: none;
@@ -62,6 +66,8 @@ div#menuchoixplat {
   }
   ul {
     padding-left:0;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
     li.choix {
       margin-top:0.5em;
       margin-bottom: 0.5em;
@@ -77,6 +83,7 @@ div#menuchoixplat {
             width: 1em;
             height: 1em;
             border-radius: 0.5em;
+            margin-right: 0.2ex;
           }
           &.colorText {
             border-radius: 1em;
@@ -85,7 +92,7 @@ div#menuchoixplat {
             font-size: 75%;
             color: white;  
             vertical-align: top;
-            margin-left:1px;
+            margin-left: 0.2ex;
           }
           &.allergen {
             background-color: #fb8f03
@@ -100,7 +107,8 @@ div#menuchoixplat {
 }
  header {
    background-color: #e1e1e1;
-   color:black;
+   color:#303030;
+   font-weight: bold;
  }
 
 

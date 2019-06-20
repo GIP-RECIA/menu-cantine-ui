@@ -72,7 +72,7 @@ export default {
       }
       footer {
         margin-top: 0.5em; 
-        text-align: center;
+        text-align: right;
       }
       div {
         margin-top: 0.5em;

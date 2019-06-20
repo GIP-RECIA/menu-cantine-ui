@@ -3,13 +3,13 @@ function nbViewByBreakpoint(glideBreakpoints) {
     var width = window.innerWidth;
     var nbView = 0;
     // eslint-disable-next-line
-    console.log('nbViewByBreackpoint width =' +  width);
+    //console.log('nbViewByBreackpoint width =' +  width);
     if (glideBreakpoints && glideBreakpoints.every) { 
       nbView = 5;
       glideBreakpoints.every(function(item, index) {
         // on cherche le break point correspondant a la taille 
         // eslint-disable-next-line
-        console.log('breakpoint (item, index)=(' +  item.perView + ", "+ index + ')');
+        //console.log('breakpoint (item, index)=(' +  item.perView + ", "+ index + ')');
         if (width <= index ) {
 
           nbView = item.perView;
@@ -49,7 +49,7 @@ function activeByBreakpoint(breakpoints, dateInit, nbJours, jours) {
     // dateInit = json.requete.dateJour, nbJours = json.nbJours, jours = json.jours
     var nbVisible = nbViewByBreakpoint(breakpoints);
     // eslint-disable-next-line
-    console.log('nbVisible =' +  nbVisible);
+    //console.log('nbVisible =' +  nbVisible);
     var len;
     var i;
     for (i = 0, len = nbJours; i < len; i++) {
@@ -59,15 +59,15 @@ function activeByBreakpoint(breakpoints, dateInit, nbJours, jours) {
         if (pos > 0 ) {
           if (pos + nbVisible < len) {
             // eslint-disable-next-line
-            console.log('1 active =' + pos );
+            //console.log('1 active =' + pos );
             return pos;
           } 
           pos = len - nbVisible;
           // eslint-disable-next-line
-          console.log('2 active =' + pos + " " + len + " " + nbVisible);
+          //console.log('2 active =' + pos + " " + len + " " + nbVisible);
           return pos
         }// eslint-disable-next-line
-        console.log('3 active =0' + pos );
+        //console.log('3 active =0' + pos );
         return  0;
         
       }

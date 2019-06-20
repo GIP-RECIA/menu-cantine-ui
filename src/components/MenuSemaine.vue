@@ -1,6 +1,6 @@
 <template>
   <div id="menusemaine" ref="menuSemaineRef">
-    <select v-if="mode_dev" v-model="selected" @change="loadMenu();">
+    <!-- select v-if="mode_dev" v-model="selected" @change="loadMenu();">
       <option disabled value>Choisissez</option>
       <option value="0450782F">lycée VOLTAIRE</option>
       <option value="0370038R">lycée GRANDMONT</option>
@@ -14,21 +14,22 @@
       <option value="0451463W">EPLEFPA DU LOIRET - Site BELLEGARDE 51</option>
       <option value="0180005H">0180005H 14 15</option>
       <option value="0370016S">0370016S 14 15</option>
-    </select>
-    <input v-if="mode_dev" v-model="noSemaine" @change="loadMenu();">
+    </select -->
+    <div v-if="mode_dev"><span>Vous pouvez saisir l'UAI de l'établissement </span> 
+    <input v-if="mode_dev" v-model="selected" @change="loadMenu();">
+    </div>
     <header  class="titre">
       <div v-if="debutPeriode">
         <button v-if="prevWeek" @click="callPrevWeek()" type='button' >&lt;</button>
         <div>
-        <span>Semaine </span><wbr/>
-        <span>du {{ debutPeriode | minusYear}} </span><wbr/>
+        <!-- span>Semaine </span><wbr/-->
+        <span>   {{ debutPeriode | minusYear}} </span><wbr/>
         <span>au {{ finPeriode | minusYear }}</span>
         </div>
         <button v-if="nextWeek"  @click="callNextWeek()" type='button' >&gt;</button>
-      </div>
-      <h3 v-if="erreur">{{erreur}}</h3>
+      </div>  
     </header>
-    
+    <div v-if="erreur">{{erreur}}</div>
     <modal
       v-if="showModal"
       @close="showModal = false"
@@ -37,7 +38,6 @@
     </modal>
     <section ref="semaineref" v-if="menuSemaine" class="semaine">
       <vue-glide ref="glideref" :options="glideOptions" @change="calculMaxPlats" v-model="active" >
-        <div> DIV DE TEST </div>
         <template slot="control">
           <button data-glide-dir="<" class="left" :class="{hide : hidePrev}">&lt;</button>
           <button data-glide-dir=">" class="right" :class="{hide : hideNext}" >&gt;</button>
@@ -215,6 +215,7 @@ export default {
       }
     },
     async loadMenu(dJour) {
+
       if (this.isDemo) {
         this.loadMenuEncoded(null, dJour);
       } else {
@@ -233,12 +234,16 @@ export default {
       }
       
       var uaiEtab = this.info.uai
+      
       if (! uaiEtab) {
         uaiEtab = this.selected
+        if (this.info.user) {
+          this.mode_dev = true
+        }
       } 
       
       var url;
-      if (this.isDemo ) {
+      if (this.isDemo) {
         
         if (this.selected) {
           uaiEtab = this.selected
@@ -278,12 +283,12 @@ export default {
         })
         .then(json => this.traitementReponse(json))
         .catch(
-          (error) => (this.erreur = 'Erreur de connexion !' + error)
+          (error) => (this.erreur = 'Une erreur de connexion au serveur est survenu :' + error)
         )
     },
     traitementReponse (json) {
       if (json.ErrorCode) {
-        this.erreur = 'Menu Indisponible !'
+        this.erreur = 'Les menus de cette semaine ne sont pas disponibles actuellement.'
         this.menuSemaine = ''
         this.debutPeriode = json.debut
         this.finPeriode = json.fin
