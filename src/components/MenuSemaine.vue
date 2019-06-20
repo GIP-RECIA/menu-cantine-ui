@@ -324,7 +324,7 @@ export default {
 @import '../css/vue-glide.css';
 div#menusemaine {
   .semaine {
-    font-size: 100%;
+    //font-size: 100%;
     display: flex;
     flex-wrap: wrap;
     background-color: transparent;
@@ -336,7 +336,7 @@ div#menusemaine {
     display: block;
     margin-left:auto;
     margin-right: auto;
-    font-size: 110%;
+    font-size: 16px;
     white-space: pre-wrap;
     text-align: center;
     background-color: #434343;

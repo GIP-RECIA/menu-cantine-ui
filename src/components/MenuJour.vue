@@ -76,7 +76,7 @@ article#menujour {
     > header {
       color: white;
     //  background-color: transparent;
-      font-size: 110%;
+      font-size: 16px;
     //  padding-bottom: 0px;
      // padding-top:0.5em;
     }
@@ -112,7 +112,7 @@ article#menujour {
   }
   > header {
     > span {
-      font-size: 125%;
+      font-size: 16px;
       font-weight: bold;
       &.name {
         text-transform: capitalize;
@@ -132,7 +132,7 @@ article#menujour {
 
   li.partie {
     //margin-top: 1em;
-    font-size: 95%;
+    font-size: 14px;
     list-style-type: none;
     > span {
       font-weight: bold;
@@ -146,7 +146,7 @@ article#menujour {
     li.choix {
       margin-top:0.5em;
       height: 1em;
-      font-size: 100%;
+      //font-size: 100%;
       list-style-type: none;
     }
   }

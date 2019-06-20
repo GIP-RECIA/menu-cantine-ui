@@ -72,7 +72,7 @@ div#menuchoixplat {
       margin-top:0.5em;
       margin-bottom: 0.5em;
       // height: 1em;
-      font-size: 100%;
+      //font-size: 100%;
       list-style-type: none;
       div {
         white-space: nowrap;
@@ -89,7 +89,7 @@ div#menuchoixplat {
             border-radius: 1em;
             padding-left: 0.4em;
             padding-right: 0.4em;
-            font-size: 75%;
+            font-size: 14px;
             color: white;  
             vertical-align: top;
             margin-left: 0.2ex;
