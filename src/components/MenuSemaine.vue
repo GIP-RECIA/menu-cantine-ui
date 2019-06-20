@@ -1,6 +1,6 @@
 <template>
   <div id="menusemaine" ref="menuSemaineRef">
-    <!-- select v-if="mode_dev" v-model="selected" @change="loadMenu();">
+    <!-- select v-if="mode_dev" v-model="selected" @change="loadMenu(); " style="width: 100%;">>
       <option disabled value>Choisissez</option>
       <option value="0450782F">lycée VOLTAIRE</option>
       <option value="0370038R">lycée GRANDMONT</option>
@@ -15,6 +15,7 @@
       <option value="0180005H">0180005H 14 15</option>
       <option value="0370016S">0370016S 14 15</option>
     </select -->
+    <div v-if="! menuSemaine">&nbsp;<!-- une div non vide pour le calcul de la largeur de breakpoint --></div>
     <div v-if="mode_dev"><span>Vous pouvez saisir l'UAI de l'établissement </span> 
     <input v-if="mode_dev" v-model="selected" @change="loadMenu();">
     </div>
@@ -368,6 +369,7 @@ div#menusemaine {
       color: white;
       div {
         display: inline-block;
+        padding-top: 3px;
       }
     }
   }

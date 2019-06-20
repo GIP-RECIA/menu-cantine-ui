@@ -28,12 +28,19 @@ function initBreakpoints (nbJour) {
     var offsetWidth;
     var root = document.querySelector('menu-cantine-menu-semaine');
     
-    if (! root) {
+    if (! root ){ 
+      //|| root.offsetWidth == 0) {
       root = document.querySelector('div#menusemaine');
     }
+    //eslint-disable-next-line
+    //console.log(root)
     offsetWidth = root.offsetWidth;
-    var delta = ~~(2 * (winWidth - offsetWidth)/ ((nbJour +1) * nbJour) )
-  
+    //eslint-disable-next-line
+    //console.log('breakpoint l='+ largeur + ' w = ' +  winWidth + ' o='+offsetWidth);
+    // le delta modelise grossiérement la difference de marge en fonction de la taille de l'écran
+    var delta = ~~(2 * (winWidth - offsetWidth)/ ((nbJour +1) * nbJour) );
+    //eslint-disable-next-line
+    //console.log('breakpoint d='+ delta + ' nbJ='+ nbJour);
     var breakpoints = [];
 
     var idx = largeur;

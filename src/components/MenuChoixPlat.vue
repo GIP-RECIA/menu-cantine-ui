@@ -15,9 +15,10 @@
                 class="color"
               >&nbsp;
           </span>
-          <span>{{choix.name}}</span>
           <span v-if="choix.nutritions" class="nutrition colorText">N</span>
           <span v-if="choix.allergens && (choix.allergens.length > 0)" class="allergen colorText">A</span>
+          <span>{{choix.name}}</span>
+          
         </div>
         <span v-else>{{choix.name}}</span>
       </li>
@@ -89,10 +90,12 @@ div#menuchoixplat {
             border-radius: 1em;
             padding-left: 0.4em;
             padding-right: 0.4em;
-            font-size: 14px;
+            //font-size: 14px;
             color: white;  
             vertical-align: top;
-            margin-left: 0.2ex;
+            margin-right: 0.2ex;
+            font-size: 10px;
+            font-weight: bold;
           }
           &.allergen {
             background-color: #fb8f03
