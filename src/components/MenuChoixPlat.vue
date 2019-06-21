@@ -90,7 +90,6 @@ div#menuchoixplat {
             border-radius: 1em;
             padding-left: 0.4em;
             padding-right: 0.4em;
-            //font-size: 14px;
             color: white;  
             vertical-align: top;
             margin-right: 0.2ex;
@@ -109,7 +108,7 @@ div#menuchoixplat {
   }
 }
  header {
-   background-color: #e1e1e1;
+   background-color: #D0D0D0;
    color:#303030;
    font-weight: bold;
  }

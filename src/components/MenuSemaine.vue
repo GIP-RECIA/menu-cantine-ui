@@ -15,19 +15,19 @@
       <option value="0180005H">0180005H 14 15</option>
       <option value="0370016S">0370016S 14 15</option>
     </select -->
-    <div v-if="! menuSemaine">&nbsp;<!-- une div non vide pour le calcul de la largeur de breakpoint --></div>
+    
     <div v-if="mode_dev"><span>Vous pouvez saisir l'UAI de l'établissement </span> 
     <input v-if="mode_dev" v-model="selected" @change="loadMenu();">
     </div>
     <header  class="titre">
       <div v-if="debutPeriode">
-        <button v-if="prevWeek" @click="callPrevWeek()" type='button' >&lt;</button>
+        <button class="week" v-if="prevWeek" @click="callPrevWeek()" type='button' >&lt;</button>
         <div>
         <!-- span>Semaine </span><wbr/-->
         <span>   {{ debutPeriode | minusYear}} </span><wbr/>
         <span>au {{ finPeriode | minusYear }}</span>
         </div>
-        <button v-if="nextWeek"  @click="callNextWeek()" type='button' >&gt;</button>
+        <button class="week" v-if="nextWeek"  @click="callNextWeek()" type='button' >&gt;</button>
       </div>  
     </header>
     <div v-if="erreur">{{erreur}}</div>
@@ -55,6 +55,7 @@
         </vue-glide-slide>
       </vue-glide>
     </section>
+    <div v-if="! menuSemaine">&nbsp;<!-- une div non vide pour le calcul de la largeur de breakpoint --></div>
   </div>
 </template>
 
@@ -340,7 +341,7 @@ div#menusemaine {
     font-size: 16px;
     white-space: pre-wrap;
     text-align: center;
-    background-color: #434343;
+    background-color: #545454;
     button {
       //color: #686868;
       //color: #e1e1e1;
@@ -375,7 +376,10 @@ div#menusemaine {
   }
   button {
     //color: #686868;
-    color: #e1e1e1;
+    color: #888;
+    &.week {
+      color: #D0D0D0
+    }
     border-radius: 18px;
     border: 2px solid transparent;
     background-color: transparent;

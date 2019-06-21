@@ -1,8 +1,8 @@
 <template>
   <transition name="modal">
-    <div class="modal-mask">
+    <div class="modal-mask" @click="$emit('close')">
       <div class="modal-wrapper">
-        <div class="modal-container">
+        <div class="modal-container" @click="function(event){event.stopPropagation();}">
           <header>{{plat.name}}</header>
           <div class="ifPlat" v-if="plat.gemrcn">
             <div class="forColor" v-for="(code_gemrcn, index) in plat.gemrcn" :key="index">
@@ -82,7 +82,7 @@ export default {
       width: 50vw;
       margin: 0px auto;
       padding: 20px 30px;
-      background-color: #fff;
+      background-color: #f3f3f3;
       border-radius: 2px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
       transition: all 0.3s ease;
