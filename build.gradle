@@ -6,15 +6,15 @@ def parsedJson = new groovy.json.JsonSlurper().parseText(jsonFile.text)
 project.version = parsedJson.version + '-SNAPSHOT'
 
 jar {
-  baseName "uportal__${project.name}"
+  baseName "gip-recia__${project.name}"
   from '.'
   exclude 'build'
   exclude 'node_modules'
-  into "META-INF/resources/webjars/uportal__${project.name}/${project.version}"
+  into "META-INF/resources/webjars/gip-recia__${project.name}/${project.version}"
 }
 /* Version pour alléger au max le jar
 jar {
-    baseName "uportal__${project.name}"
+    baseName "gip-recia__${project.name}"
     from '.'
     include 'META-INF'
     include 'dist/*'
@@ -22,6 +22,6 @@ jar {
     exclude "dist/${project.name}.js"
     exclude "dist/${project.name}.js.map"
     exclude "dist/${project.name}.min.js.map"
-    into "META-INF/resources/webjars/uportal__${project.name}/${project.version}"
+    into "META-INF/resources/webjars/gip-recia__${project.name}/${project.version}"
 }
 */
