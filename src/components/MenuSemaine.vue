@@ -55,7 +55,7 @@
         </vue-glide-slide>
       </vue-glide>
     </section>
-    <div v-if="! menuSemaine">&nbsp;<!-- une div non vide pour le calcul de la largeur de breakpoint --></div>
+    <div v-if="! menuSemaine" id="divVideMenuSemaine" style="width: 100%">&nbsp;<!-- une div non vide pour le calcul de la largeur de breakpoint --></div>
   </div>
 </template>
 

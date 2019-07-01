@@ -3,13 +3,13 @@ function nbViewByBreakpoint(glideBreakpoints) {
     var width = window.innerWidth;
     var nbView = 0;
     // eslint-disable-next-line
-    //console.log('nbViewByBreackpoint width =' +  width);
+    console.log('nbViewByBreackpoint width =' +  width);
     if (glideBreakpoints && glideBreakpoints.every) { 
       nbView = 5;
       glideBreakpoints.every(function(item, index) {
         // on cherche le break point correspondant a la taille 
         // eslint-disable-next-line
-        //console.log('breakpoint (item, index)=(' +  item.perView + ", "+ index + ')');
+        console.log('breakpoint (item, index)=(' +  item.perView + ", "+ index + ')');
         if (width <= index ) {
 
           nbView = item.perView;
@@ -26,21 +26,26 @@ function initBreakpoints (nbJour) {
     var largeur = parseInt(process.env.VUE_APP_BREAKPOINT_WIDTH)
     var winWidth = window.innerWidth;
     var offsetWidth;
-    var root = document.querySelector('menu-cantine-menu-semaine');
-    
+    var root = document.querySelector('div#divVideMenuSemaine');
+    if (!root) {
+      root = document.querySelector('menu-cantine-menu-semaine');
+    }
     if (! root ){ 
       //|| root.offsetWidth == 0) {
       root = document.querySelector('div#menusemaine');
     }
     //eslint-disable-next-line
-    //console.log(root)
+    console.log(root)
     offsetWidth = root.offsetWidth;
     //eslint-disable-next-line
-    //console.log('breakpoint l='+ largeur + ' w = ' +  winWidth + ' o='+offsetWidth);
+    console.log('breakpoint l='+ largeur + ' w = ' +  winWidth + ' o='+offsetWidth);
     // le delta modelise grossiérement la difference de marge en fonction de la taille de l'écran
-    var delta = ~~(2 * (winWidth - offsetWidth)/ ((nbJour +1) * nbJour) );
+    var delta = 1;
+    //if (offsetWidth > 0) {
+      delta = ~~(2 * (winWidth - offsetWidth)/ ((nbJour +1) * nbJour) );
+    //}
     //eslint-disable-next-line
-    //console.log('breakpoint d='+ delta + ' nbJ='+ nbJour);
+    console.log('breakpoint d='+ delta + ' nbJ='+ nbJour);
     var breakpoints = [];
 
     var idx = largeur;

@@ -1,6 +1,6 @@
 {
   "name": "@gip-recia/menu-cantine",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Affichage des menus de cantine des établissements scolaire du secondaire en région centre.",
   "keywords": [ "Menus cantine", "gip-recia",  "région centre", "esco" ],
   "bugs" : {
@@ -24,6 +24,7 @@
     "serve": "vue-cli-service serve",
     "prebuild": "babel node_modules/@vue/web-component-wrapper/dist/vue-wc-wrapper.js -o node_modules/@vue/web-component-wrapper/dist/vue-wc-wrapper.js",
     "build": "vue-cli-service build --name menu-cantine --target wc 'src/components/*.vue'",
+    "buildDev": "vue-cli-service build --mode development --name menu-cantine --target wc 'src/components/*.vue'",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
