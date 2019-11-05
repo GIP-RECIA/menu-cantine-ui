@@ -22,6 +22,7 @@
                         :partie="partie"
                         :gem_rcn_data="gem_rcn_data"
                         :display_modal="display_modal"
+                        :url_img="url_img"
                         :nb_plats="nb_plats_max(service.name, partie.rank)"
                         >
             </choixplat>
@@ -46,6 +47,7 @@ export default {
       }
     },
     display_modal: Function,
+    url_img: Function,
     gem_rcn_data: Array,
     nb_plats_max: Function
   },

@@ -36,7 +36,8 @@
       v-if="showModal"
       @close="showModal = false"
       v-bind:plat="plat"
-      v-bind:gemrcn_list="gemRcnData">
+      v-bind:gemrcn_list="gemRcnData"
+      v-bind:url_img="urlImg">
     </modal>
     <section ref="semaineref" v-if="menuSemaine" class="semaine">
       <vue-glide ref="glideref" :options="glideOptions" @change="calculMaxPlats" v-model="active" >
@@ -51,6 +52,7 @@
             :jour="jour"
             :gem_rcn_data="gemRcnData"
             :display_modal="displayModal"
+            :url_img="urlImg"
             :nb_plats_max="maxPlats"
           />
         </vue-glide-slide>
@@ -177,6 +179,13 @@ export default {
     displayModal: function (plat) {
       this.plat = plat
       this.showModal = true
+    },
+    urlImg: function (img){
+      if (img.indexOf('/') < 0 ) {
+        
+        return process.env.VUE_APP_URL_IMG + img 
+      } 
+      return img
     },
 
     calculMaxPlats: function () {

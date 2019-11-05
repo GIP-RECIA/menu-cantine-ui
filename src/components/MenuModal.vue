@@ -4,6 +4,12 @@
       <div class="modal-wrapper">
         <div class="modal-container" @click="function(event){event.stopPropagation();}">
           <header>{{plat.name}}</header>
+          <div class="ifLabel" v-if="plat.labelsInfo" >
+            <div class="forLabel" v-for="(label, index) in plat.labelsInfo" :key="index">
+              <img v-bind:src="url_img(label.logo)" /> 
+              {{label.nom}} 
+            </div>
+          </div>
           <div class="ifPlat" v-if="plat.gemrcn">
             <div class="forColor" v-for="(code_gemrcn, index) in plat.gemrcn" :key="index">
               <span class="color" :style="'background-color:' + gemrcn_list[code_gemrcn].color + ';'"/>
@@ -44,7 +50,7 @@ export default {
     return { nutData: [{ name: 'test', value: 'val', unit: 'u' }] }
   },
   // template: modalTemplate,
-  props: ['plat', 'gemrcn_list']
+  props: ['plat', 'gemrcn_list', 'url_img']
 }
 </script>
 
@@ -89,6 +95,9 @@ export default {
       font-family: Helvetica, Arial, sans-serif;
       ul {
         margin: 0px;
+      }
+      img {
+        height: 2em;
       }
       span.color {
         display: inline-block;
