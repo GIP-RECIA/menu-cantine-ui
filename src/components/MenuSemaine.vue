@@ -1,21 +1,5 @@
 <template>
   <div id="menusemaine" ref="menuSemaineRef">
-    <!-- select v-if="mode_dev" v-model="selected" @change="loadMenu(); " style="width: 100%;">>
-      <option disabled value>Choisissez</option>
-      <option value="0450782F">lycée VOLTAIRE</option>
-      <option value="0370038R">lycée GRANDMONT</option>
-      <option value="0370032J">lycée CLOUET</option>
-      <option value="0410899E">lycée hôtelier de Blois</option>
-      <option value="0180823X">lycée VAUVERT 6</option>
-      <option value="0280700J">Jean-Félix PAULSEN 6</option>
-      <option value="0360017Y">EPLEFPA de l'INDRE 4</option>
-      <option value="0370036N">LGT BALZAC 2</option>
-      <option value="0451104F">EREA Simone VEIL 5</option>
-      <option value="0451463W">EPLEFPA DU LOIRET - Site BELLEGARDE 51</option>
-      <option value="0180005H">0180005H 14 15</option>
-      <option value="0370016S">0370016S 14 15</option>
-    </select -->
-    
     <div v-if="mode_dev"><span>Vous pouvez saisir l'UAI de l'établissement </span> 
     <input v-if="mode_dev" v-model="selected" @change="loadMenu();">
     <input v-if="mode_dev" v-model="noSemaine" @change="loadMenu();">
@@ -175,14 +159,12 @@ export default {
       }
     },
 
-
     displayModal: function (plat) {
       this.plat = plat
       this.showModal = true
     },
     urlImg: function (img){
       if (img.indexOf('/') < 0 ) {
-        
         return process.env.VUE_APP_URL_IMG + img 
       } 
       return img
@@ -335,6 +317,8 @@ export default {
 //@import '../../node_modules/vue-glide-js/dist/vue-glide.css';
 @import '../css/vue-glide.css';
 div#menusemaine {
+  font-size: 14px;
+  line-height: 20px;
   .semaine {
     //font-size: 100%;
     display: flex;
@@ -411,6 +395,5 @@ div#menusemaine {
       }
     }
   }
-  
 }
 </style>

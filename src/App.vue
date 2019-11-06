@@ -1,6 +1,6 @@
 <template>
     <!-- fixe la fonte-size identique au portail -->
-  <div id="app" style="font-size: 14px">
+  <div id="app" style="font-size: 14px; line-height: 1.42857143 ;">
     <!-- img alt="Vue logo" src="./assets/logo.png" -->
     <menu-semaine is-demo></menu-semaine>
   </div>
@@ -16,7 +16,7 @@ export default {
   }
 }
 </script>
-
+ 
 <style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

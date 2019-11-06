@@ -83,7 +83,9 @@ div#menuchoixplat {
       div {
         white-space: nowrap;
         img {
-          height: 1.22em;
+          height: 20px;
+          margin-top: -3px;
+          margin-bottom: -3px;
           margin-right: 2px;
         }
         > span {
@@ -97,6 +99,7 @@ div#menuchoixplat {
             margin-left: 0.2ex;
           }
           &.colorText {
+            line-height: 14px;
             border-radius: 1em;
             padding-left: 0.4em;
             padding-right: 0.4em;
