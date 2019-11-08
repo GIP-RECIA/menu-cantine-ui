@@ -1,5 +1,5 @@
 <template>
-  <article id="menujour" v-bind:class="['jour', jour.typeVideKo, jour.jour]">
+  <article id="menujour" v-bind:class="['jour',  jour.jour]">
     <!-- template  v-for="(service, idx) in jour.destinations" -->
     <header>
       <span class="name" >{{jour.jour}}</span>
@@ -8,7 +8,7 @@
       </div>
     </header>
     <template  v-for="(service) in jour.destinations" >
-      <article class="service"  :key="service.name">
+      <article v-bind:class="['service', {vide: service.typeVide, vide0: !nb_plats_max(service.name)}]"  :key="service.name">
         <header>
           <span>{{service.name}}</span>
         </header>
@@ -160,6 +160,14 @@ article#menujour {
   }
 }
 
+.service.vide {
+  span {
+    color: transparent;
+  }
+  &.vide0 {
+    display: none;
+  }
+}
 
 
 .lundi {

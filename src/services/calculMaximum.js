@@ -39,9 +39,13 @@ function calculMaxJour (service, partie, maxPlats) {
     if (maxPlats) {
       maxPlats = maxPlats[service];
       if (maxPlats) {
-        var nb = maxPlats[partie];
-        if (nb) {
-          return nb;
+        if (partie) {
+          var nb = maxPlats[partie];
+          if (nb) {
+            return nb;
+          }
+        } else {
+          return 1;
         }
       }
     }
