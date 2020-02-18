@@ -164,7 +164,7 @@ export default {
       this.showModal = true
     },
     urlImg: function (img){
-      if (img.indexOf('/') < 0 ) {
+      if (img && img.indexOf('/') < 0 ) {
         return process.env.VUE_APP_URL_IMG + img 
       } 
       return img
