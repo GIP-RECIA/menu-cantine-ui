@@ -23,10 +23,10 @@
     "access": "public"
   },
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve ",
     "prebuild": "babel node_modules/@vue/web-component-wrapper/dist/vue-wc-wrapper.js -o node_modules/@vue/web-component-wrapper/dist/vue-wc-wrapper.js",
     "build": "vue-cli-service build --name menu-cantine --target wc 'src/components/*.vue'",
-    "buildDev": "vue-cli-service build --mode development --name menu-cantine --target wc 'src/components/*.vue'",
+    "buildDev": "vue-cli-service build --mode development --name menu-cantine --target wc 'src/components/*.vue' ",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -46,8 +46,8 @@
     "babel-eslint": "^10.0.2",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.2.3",
-    "node-sass": "^4.12.0",
-    "sass-loader": "^7.1.0",
+    "node-sass": "^4.14.1",
+    "sass-loader": "^7.3.1",
     "vue-template-compiler": "^2.5.21"
   },
   "eslintConfig": {

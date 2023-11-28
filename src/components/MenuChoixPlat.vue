@@ -15,7 +15,7 @@
           
           <span v-if="choix.nutritions" class="nutrition colorText">N</span>
           <span v-if="choix.allergens && (choix.allergens.length > 0)" class="allergen colorText">A</span>
-          <img v-if="choix.labelsInfo" v-bind:src="url_img(choix.labelsInfo[0].logo)"/>
+          <img v-if="choix.labelsInfo && choix.labelsInfo[0].logo " v-bind:src="url_img(choix.labelsInfo[0].logo)"/>
           <span>{{choix.name}}</span>
           <span v-for="(code_gemrcn, idx) in choix.gemrcn"
                 :key="idx"

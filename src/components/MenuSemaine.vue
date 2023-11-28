@@ -1,8 +1,9 @@
 <template>
   <div id="menusemaine" ref="menuSemaineRef">
-    <div v-if="mode_dev"><span>Vous pouvez saisir l'UAI de l'établissement </span> 
-    <input v-if="mode_dev" v-model="selected" @change="loadMenu();">
-    <input v-if="mode_dev" v-model="noSemaine" @change="loadMenu();">
+    <div v-if="mode_dev">
+      <span>Vous pouvez saisir l'UAI de l'établissement </span> 
+      <input v-if="mode_dev" v-model="selected" @change="loadMenu();">
+      <input v-if="mode_dev" v-model="noSemaine" @change="loadMenu();">
     </div>
     <header  class="titre">
       <div v-if="debutPeriode">
