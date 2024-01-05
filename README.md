@@ -1,29 +1,25 @@
-# menu-cantine
+# Menu Cantine UI
 
-## Project setup
+Ce projet vue est la partie **front-end** du service Menu Cantine. Il faut utiliser la version **14** de node pour pouvoir compiler le projet.
+
+## Installation des dépendances
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+## Compilation et hot-reload pour du dev
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### Compilation pour tester avec le back en local (copier les fichiers js dans le dossier static/demo du projet menu-cantine-web-service)
+```
+npm run buildDev
+```
+
+### Compilation pour de la prod
 ```
 npm run build
 ```
 
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+L'utilisation en prod se fait sous forme de webcomponent (récupération depuis npmjs).
