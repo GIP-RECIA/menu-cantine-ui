@@ -315,8 +315,8 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-//@import '../../node_modules/vue-glide-js/dist/vue-glide.css';
-@import '../css/vue-glide.css';
+@import '../../node_modules/vue-glide-js/dist/vue-glide.css';
+// @import '../css/vue-glide.css';
 div#menusemaine {
   font-size: 14px;
   line-height: 20px;
