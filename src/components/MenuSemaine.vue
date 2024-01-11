@@ -2,8 +2,8 @@
   <div id="menusemaine" ref="menuSemaineRef">
     <div v-if="mode_dev">
       <span>Vous pouvez saisir l'UAI de l'établissement </span> 
-      <input v-if="mode_dev" v-model="selected" @change="loadMenu();">
-      <input v-if="mode_dev" v-model="noSemaine" @change="loadMenu();">
+      <input v-if="mode_dev" v-model="selected" @change="loadMenu('');">
+      <input v-if="mode_dev" v-model="noSemaine" @change="loadMenu('');">
     </div>
     <header  class="titre">
       <div v-if="debutPeriode">
@@ -66,7 +66,13 @@ export default {
   },
 */
   props: {
-    isDemo: Boolean
+    isDemo: Boolean,
+    appPortalContext: String,
+    appUserInfoUri: String,
+    appUrlImg: String,
+    appUrlRestApi: String,
+    appUrlApiEtab: String,
+    appUrlRestApiDemo: String
   },
   data () {
     return {
@@ -166,7 +172,7 @@ export default {
     },
     urlImg: function (img){
       if (img && img.indexOf('/') < 0 ) {
-        return process.env.VUE_APP_URL_IMG + img 
+        return this.appUrlImg + img 
       } 
       return img
     },
@@ -192,8 +198,8 @@ export default {
       // this.loadingState.organization = false;
       if (process.env.NODE_ENV !== 'development' ) {
         const {user, organizations, bearer} =  await fetchUserInfoAndOrg(
-            process.env.VUE_APP_PORTAL_CONTEXT + process.env.VUE_APP_USER_INFO_URI,
-            process.env.VUE_APP_URL_API_ETAB,
+            this.appPortalContext + this.userInfoApiUrl,
+            this.appUrlApiEtab,
             'ESCOSIRENCourant',
             false
         );
@@ -214,7 +220,7 @@ export default {
       if (this.isDemo) {
         this.loadMenuEncoded(null, dJour);
       } else {
-        const encoded = (await oidc({ userInfoApiUrl: process.env.VUE_APP_PORTAL_CONTEXT + process.env.VUE_APP_USER_INFO_URI })).encoded
+        const encoded = (await oidc({ userInfoApiUrl: this.appPortalContext + this.appUserInfoUri })).encoded
         this.loadMenuEncoded(encoded, dJour);
       }
     },
@@ -243,9 +249,9 @@ export default {
         if (this.selected) {
           uaiEtab = this.selected
         }
-        url = process.env.VUE_APP_URL_REST_API_DEMO
+        url = this.appUrlRestApiDemo
       } else {
-        url = process.env.VUE_APP_URL_REST_API
+        url = this.appUrlRestApi
       }
       var headers = {
           'Accept': 'application/json',
@@ -254,21 +260,15 @@ export default {
 
       if (encoded != null) {
         headers['Authorization'] = 'Bearer ' + encoded
-      } 
+      }
 
       fetch(
-        url,
-        //initPost(dJour, uaiEtab, this.noSemaine, encoded)
+        url+"?uai="+uaiEtab+"&dateJour="+dJour+"&semaine="+this.noSemaine,
         {
           headers: headers,
-          method: 'POST',
+          method: 'GET',
           credentials: 'omit',
-          mode: 'cors',
-          body: JSON.stringify({
-            semaine: this.noSemaine,
-            dateJour: dJour,
-            uai: uaiEtab
-          })
+          mode: 'cors'
         }
       ) .then(response => {
           if (response.ok) {
