@@ -24,7 +24,7 @@
       v-bind:gemrcn_list="gemRcnData"
       v-bind:url_img="urlImg">
     </modal>
-    <section ref="semaineref" v-if="menuSemaine" class="semaine">
+    <section ref="semaineref" v-if="menuSemaine && (nbJour > 0)" class="semaine">
       <vue-glide ref="glideref" :options="glideOptions" @change="calculMaxPlats" v-model="active" >
         <template slot="control">
           <button data-glide-dir="<" class="left" :class="{hide : hidePrev}">&lt;</button>
@@ -271,19 +271,16 @@ export default {
           mode: 'cors'
         }
       ) .then(response => {
-          if (response.ok) {
             return response.json()
-          }
-          return { ErrorCode: response }
         })
         .then(json => this.traitementReponse(json))
         .catch(
-          (error) => (this.erreur = 'Une erreur de connexion au serveur est survenu :' + error)
+          (error) => (this.erreur = 'Une erreur de connexion au serveur est survenue :' + error)
         )
     },
     traitementReponse (json) {
-      if (json.ErrorCode) {
-        this.erreur = 'Les menus de cette semaine ne sont pas disponibles actuellement.'
+      if (json.messageErreur) {
+        this.erreur = json.messageErreur
         this.menuSemaine = ''
         this.debutPeriode = json.debut
         this.finPeriode = json.fin
@@ -306,7 +303,9 @@ export default {
         
           // on rétablit l'animation
         this.$nextTick(() => {
-          this.$refs.glideref.glide.settings.animationDuration = 1000
+          if(this.nbJour > 0){
+            this.$refs.glideref.glide.settings.animationDuration = 1000
+          }       
         })  
       }
     }
