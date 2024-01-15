@@ -1,6 +1,6 @@
 {
   "name": "@gip-recia/menu-cantine",
-  "version": "0.1.12",
+  "version": "0.1.14",
   "description": "Affichage des menus de cantine des établissements scolaire du secondaire en région centre.",
   "keywords": [
     "Menus cantine",
