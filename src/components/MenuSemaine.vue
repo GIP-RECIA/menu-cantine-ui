@@ -137,7 +137,7 @@ export default {
     if (! this.isDemo) {
       var objVue = this;
       this.fetchUserInfo().then( encoded => {
-        objVue.loadMenuEncoded(encoded);
+        objVue.loadMenuEncoded(encoded, '');
       }).catch(function(err){
         // eslint-disable-next-line
         console.log('erreur: ' + err);
@@ -198,7 +198,7 @@ export default {
       // this.loadingState.organization = false;
       if (process.env.NODE_ENV !== 'development' ) {
         const {user, organizations, bearer} =  await fetchUserInfoAndOrg(
-            this.appPortalContext + this.userInfoApiUrl,
+            this.appPortalContext + this.appUserInfoUri,
             this.appUrlApiEtab,
             'ESCOSIRENCourant',
             false
@@ -262,21 +262,24 @@ export default {
         headers['Authorization'] = 'Bearer ' + encoded
       }
 
-      fetch(
-        url+"?uai="+uaiEtab+"&dateJour="+dJour+"&semaine="+this.noSemaine,
-        {
-          headers: headers,
-          method: 'GET',
-          credentials: 'omit',
-          mode: 'cors'
-        }
-      ) .then(response => {
-            return response.json()
-        })
-        .then(json => this.traitementReponse(json))
-        .catch(
-          (error) => (this.erreur = 'Une erreur de connexion au serveur est survenue :' + error)
-        )
+      if(uaiEtab != ""){
+        fetch(
+          url+"?uai="+uaiEtab+"&dateJour="+dJour+"&semaine="+this.noSemaine,
+          {
+            headers: headers,
+            method: 'GET',
+            credentials: 'omit',
+            mode: 'cors'
+          }
+        ) .then(response => {
+              return response.json()
+          })
+          .then(json => this.traitementReponse(json))
+          .catch(
+            (error) => (this.erreur = 'Une erreur de connexion au serveur est survenue :' + error)
+          )
+      }
+        
     },
     traitementReponse (json) {
       if (json.messageErreur) {
@@ -293,6 +296,9 @@ export default {
         this.gemRcnData = json.allGemRcn
         this.jours = json.jours
         this.nbJour = json.nbJours
+        if(json.nbJours == 0){
+          this.erreur = "Aucun menu n'a été trouvé pour cette semaine."
+        }
         this.nextWeek = json.nextWeek
         this.prevWeek = json.previousWeek
         this.glideOptions.animationDuration = 0
