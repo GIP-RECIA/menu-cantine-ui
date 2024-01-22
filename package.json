@@ -33,7 +33,11 @@
     "prebuild": "babel node_modules/@vue/web-component-wrapper/dist/vue-wc-wrapper.js -o node_modules/@vue/web-component-wrapper/dist/vue-wc-wrapper.js",
     "build": "vue-cli-service build --name menu-cantine --target wc 'src/components/*.vue'",
     "buildDev": "vue-cli-service build --mode development --name menu-cantine --target wc 'src/components/*.vue' ",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "release": "standard-version",
+    "release:minor": "standard-version --release-as minor",
+    "release:patch": "standard-version --release-as patch",
+    "release:major": "standard-version --release-as major"
   },
   "dependencies": {
     "@uportal/open-id-connect": "^1.40.2",
@@ -46,6 +50,8 @@
     "@babel/plugin-proposal-optional-chaining": "^7.21.0",
     "@babel/plugin-transform-runtime": "^7.23.7",
     "@babel/preset-env": "^7.23.8",
+    "@commitlint/cli": "^17.8.1",
+    "@commitlint/config-conventional": "^17.8.1",
     "@vue/cli-plugin-babel": "^3.12.1",
     "@vue/cli-plugin-eslint": "^3.12.1",
     "@vue/cli-service": "^3.12.1",
@@ -54,6 +60,7 @@
     "eslint-plugin-vue": "^5.2.3",
     "node-sass": "^4.14.1",
     "sass-loader": "^7.3.1",
+    "standard-version": "^9.5.0",
     "vue-template-compiler": "^2.7.16"
   },
   "eslintConfig": {
