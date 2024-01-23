@@ -1,5 +1,8 @@
 <template>
   <div id="menusemaine" ref="menuSemaineRef">
+    <loading :active.sync="isLoading"
+             :can-cancel="false"
+             :is-full-page="true"/>
     <div v-if="mode_dev">
       <span>Vous pouvez saisir l'UAI de l'établissement </span> 
       <input v-if="mode_dev" v-model="selected" @change="loadMenu('');">
@@ -56,6 +59,7 @@ import fetchUserInfoAndOrg from '../services/fetchUserInfoAndOrgs';
 import oidc from '@uportal/open-id-connect';
 import { nbViewByBreakpoint, initBreakpoints, activeByBreakpoint } from  '../services/breakpointService';
 import { calculMaxJour , calculMaxSemaine } from  '../services/calculMaximum';
+import Loading from 'vue-loading-overlay';
 // import 'vue-glide-js/dist/vue-glide.css' en single file compoment les ccs doivent être importer dans la section css 
 
 export default {
@@ -76,6 +80,7 @@ export default {
   },
   data () {
     return {
+      isLoading: false,
       mode_dev: (process.env.NODE_ENV === 'development' || process.env.VUE_APP_ENV === 'dev' ),
       menuSemaine: '',
       debutPeriode: '',
@@ -117,7 +122,8 @@ export default {
     modal: MenuModal,
     jour: MenuJour,
     [Glide.name]: Glide,
-    [GlideSlide.name]: GlideSlide
+    [GlideSlide.name]: GlideSlide,
+    loading: Loading
   },
   filters: {
     minusYear: function(jour) {
@@ -262,6 +268,8 @@ export default {
         headers['Authorization'] = 'Bearer ' + encoded
       }
 
+      this.isLoading = true;
+
       if(uaiEtab != ""){
         fetch(
           url+"?uai="+uaiEtab+"&dateJour="+dJour+"&semaine="+this.noSemaine,
@@ -275,9 +283,7 @@ export default {
               return response.json()
           })
           .then(json => this.traitementReponse(json))
-          .catch(
-            (error) => (this.erreur = 'Une erreur de connexion au serveur est survenue :' + error)
-          )
+          .catch(error => this.traitementErreur(error))
       }
         
     },
@@ -306,6 +312,8 @@ export default {
         this.glideOptions.breakpoints = initBreakpoints(this.nbJour)
         
         this.active = activeByBreakpoint(this.glideOptions.breakpoints, json.requete.dateJour, json.nbJours, json.jours)
+
+        this.isLoading = false;
         
           // on rétablit l'animation
         this.$nextTick(() => {
@@ -314,6 +322,10 @@ export default {
           }       
         })  
       }
+    },
+    traitementErreur(error){
+      this.erreur = 'Une erreur de connexion au serveur est survenue :' + error;
+      this.isLoading = false;
     }
   }
 }
@@ -321,6 +333,7 @@ export default {
 
 <style scoped lang='scss'>
 @import '../../node_modules/vue-glide-js/dist/vue-glide.css';
+@import '../../node_modules/vue-loading-overlay/dist/vue-loading.css';
 // @import '../css/vue-glide.css';
 div#menusemaine {
   font-size: 14px;
