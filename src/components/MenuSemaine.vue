@@ -71,7 +71,6 @@ export default {
 */
   props: {
     isDemo: Boolean,
-    appPortalContext: String,
     appUserInfoUri: String,
     appUrlImg: String,
     appUrlRestApi: String,
@@ -204,7 +203,7 @@ export default {
       // this.loadingState.organization = false;
       if (process.env.NODE_ENV !== 'development' ) {
         const {user, organizations, bearer} =  await fetchUserInfoAndOrg(
-            this.appPortalContext + this.appUserInfoUri,
+            this.appUserInfoUri,
             this.appUrlApiEtab,
             'ESCOSIRENCourant',
             false
@@ -226,7 +225,7 @@ export default {
       if (this.isDemo) {
         this.loadMenuEncoded(null, dJour);
       } else {
-        const encoded = (await oidc({ userInfoApiUrl: this.appPortalContext + this.appUserInfoUri })).encoded
+        const encoded = (await oidc({ userInfoApiUrl: this.appUserInfoUri })).encoded
         this.loadMenuEncoded(encoded, dJour);
       }
     },

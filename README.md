@@ -40,7 +40,6 @@ Propriétés disponibles :
 | Nom                     |   Type    | Obligatoire | Default | Description                                                           |
 | ----------------------- | :-------: | :---------: | :-----: | --------------------------------------------------------------------- |
 | `is-demo`               | `boolean` |    `non`    | `false` | True pour lancer en mode de test local (affichage de la page "admin") |
-| `app-portal-context`    | `string`  |    `oui`    |         | URL du portail                                                        |
 | `app-user-info-uri`     | `string`  |    `oui`    |         | URL de l'API pour récupérer les infos sur les users                   |
 | `app-url-img`           | `string`  |    `oui`    |         | URL des images                                                        |
 | `app-url-rest-api`      | `string`  |    `oui`    |         | URL du back pour récupérer les menus                                  |
@@ -52,7 +51,6 @@ Propriétés disponibles :
 ```html
 <menu-cantine-menu-semaine
   is-demo
-  app-portal-context=""
   app-user-info-uri=""
   app-url-img=""
   app-url-rest-api=""

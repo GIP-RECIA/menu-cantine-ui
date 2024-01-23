@@ -4,7 +4,6 @@
     <!-- img alt="Vue logo" src="./assets/logo.png" -->
     <menu-semaine
       is-demo
-      :app-portal-context="VUE_APP_PORTAL_CONTEXT"
       :app-user-info-uri="VUE_APP_USER_INFO_URI"
       :app-url-img="VUE_APP_URL_IMG"
       :app-url-rest-api="VUE_APP_URL_REST_API"
@@ -18,7 +17,6 @@
 import MenuSemaine from './components/MenuSemaine.vue'
 
 const {
-  VUE_APP_PORTAL_CONTEXT,
   VUE_APP_USER_INFO_URI,
   VUE_APP_URL_IMG,
   VUE_APP_URL_REST_API,
@@ -33,7 +31,6 @@ export default {
   },
   data () {
     return {
-      VUE_APP_PORTAL_CONTEXT,
       VUE_APP_USER_INFO_URI,
       VUE_APP_URL_IMG,
       VUE_APP_URL_REST_API,
