@@ -267,9 +267,8 @@ export default {
         headers['Authorization'] = 'Bearer ' + encoded
       }
 
-      this.isLoading = true;
-
       if(uaiEtab != ""){
+        this.isLoading = true;
         fetch(
           url+"?uai="+uaiEtab+"&dateJour="+dJour+"&semaine="+this.noSemaine,
           {
