@@ -294,6 +294,7 @@ export default {
         this.finPeriode = json.fin
         this.nextWeek = json.nextWeek
         this.prevWeek = json.previousWeek
+        this.isLoading = false;
       } else {
         this.menuSemaine = json
         this.debutPeriode = json.debut
