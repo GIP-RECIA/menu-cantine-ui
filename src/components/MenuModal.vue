@@ -18,7 +18,8 @@
           </div>
           <div class="ifAllergens" v-if="plat.allergens && plat.allergens.length">
             <span class="color" :style="'background-color: #fb8f03'" ></span>
-            <span>Allergène&#8239;:</span>
+            <span v-if="plat.allergens.length>1">Allergènes&#8239;:</span>
+            <span v-if="plat.allergens.length==1">Allergène&#8239;:</span>
             <ul>
               <li v-for="(elem, index) in plat.allergens" :key="index">{{elem}}</li>
             </ul>
