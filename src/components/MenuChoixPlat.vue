@@ -16,6 +16,8 @@
           <span v-if="choix.nutritions" class="nutrition colorText">N</span>
           <span v-if="choix.allergens && (choix.allergens.length > 0)" class="allergen colorText">A</span>
           <img v-if="choix.labelsInfo && choix.labelsInfo[0].logo " v-bind:src="url_img(choix.labelsInfo[0].logo)"/>
+          <img v-if="choix.labelsInfo && choix.labelsInfo.length > 1 && choix.labelsInfo[1].logo " v-bind:src="url_img(choix.labelsInfo[1].logo)"/>
+          <img v-if="choix.labelsInfo && choix.labelsInfo.length > 2 && choix.labelsInfo[2].logo " v-bind:src="url_img(choix.labelsInfo[2].logo)"/>
           <span>{{choix.name}}</span>
           <span v-for="(code_gemrcn, idx) in choix.gemrcn"
                 :key="idx"
@@ -83,6 +85,7 @@ div#menuchoixplat {
       div {
         white-space: nowrap;
         img {
+          cursor: pointer;
           height: 20px;
           margin-top: -3px;
           margin-bottom: -3px;
