@@ -2,17 +2,18 @@
 
 - [Développement](#développement)
   - [Prérequis](#prérequis)
-    - [Initialisation](#initialisation)
-    - [Serveur de Développement](#serveur-de-développement)
-    - [Compilation](#compilation)
-      - [Mode de test](#mode-de-test)
+  - [Initialisation](#initialisation)
+  - [Serveur de Développement](#serveur-de-développement)
+  - [Compilation](#compilation)
+    - [Mode de test](#mode-de-test)
+  - [Release](#release)
 
 ## Prérequis
 
 - [nvm](https://github.com/nvm-sh/nvm) ou node 14
 - webpack
 
-### Initialisation
+## Initialisation
 
 ```bash
 nvm install
@@ -20,19 +21,19 @@ npm i -g webpack
 npm i
 ```
 
-### Serveur de Développement
+## Serveur de Développement
 
 ```bash
 npm run serve
 ```
 
-### Compilation
+## Compilation
 
 ```bash
 npm run build
 ```
 
-#### Mode de test
+### Mode de test
 
 Fonctionnement avec le back en local :
 
@@ -42,4 +43,19 @@ Fonctionnement avec le back en local :
 
 ```bash
 npm run buildDev
+```
+
+## Release
+
+  1. Mettre à jour la version et le changelog (création du commit et du tag automatique) : `release:patch` **OU** `release:minor` **OU** `release:major`
+  2. Compiler
+  3. Publier sur npmjs
+  4. Push les modifications et le tag sur git
+
+```bash
+npm run release:patch
+npm run build
+npm publish
+git push origin master
+git push origin --tags
 ```
