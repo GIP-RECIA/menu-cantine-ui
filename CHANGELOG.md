@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.17](https://github.com/GIP-RECIA/menu-cantine-ui/compare/v0.1.16...v0.1.17) (2024-01-30)
+
+
+### Bug Fixes
+
+* chargement infini sur choix d'UAI ([6d502ce](https://github.com/GIP-RECIA/menu-cantine-ui/commit/6d502ceee6600059926490cc0edc60b86cc1bc62))
+
+### [0.1.16](https://github.com/GIP-RECIA/menu-cantine-ui/compare/v0.1.15...v0.1.16) (2024-01-24)
+
+
+### Features
+
+* indicateur de chargement pendant une requête à l'API ([992410d](https://github.com/GIP-RECIA/menu-cantine-ui/commit/992410d847a796ca452aa0e0cb1c028d1a396876))
+
+
+### Bug Fixes
+
+* fin du chargement même si une erreur est retournée ([21f93e2](https://github.com/GIP-RECIA/menu-cantine-ui/commit/21f93e24d1b5a1eadfb6f6444a264b8567683af1))
+
 ### [0.1.15](https://github.com/GIP-RECIA/menu-cantine-ui/compare/v0.1.14...v0.1.15) (2024-01-17)
 
 
