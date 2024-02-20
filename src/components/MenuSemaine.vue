@@ -5,8 +5,8 @@
              :is-full-page="true"/>
     <div v-if="mode_dev">
       <span>Vous pouvez saisir l'UAI de l'établissement </span> 
-      <input v-if="mode_dev" v-model="selected" @change="loadMenu('');">
-      <input v-if="mode_dev" v-model="noSemaine" @change="loadMenu('');">
+      <input v-if="mode_dev" v-model="selected" placeholder="UAI" @change="loadMenu('');">
+      <input v-if="mode_dev" v-model="noSemaine" placeholder="Numéro de la semaine" @change="loadMenu('');">
     </div>
     <header  class="titre">
       <div v-if="debutPeriode">
@@ -390,7 +390,9 @@ div#menusemaine {
     //color: #686868;
     color: #888;
     &.week {
-      color: #D0D0D0
+      color: #D0D0D0;
+      margin-top: -15px;
+
     }
     border-radius: 18px;
     border: 2px solid transparent;
@@ -406,9 +408,11 @@ div#menusemaine {
       top: 0 ;
 
       &.right {
+        top: -9;
         right: 0;
       }
       &.left {
+        top: -9;
         left:0;
       }
     }
