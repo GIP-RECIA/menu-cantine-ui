@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.19](https://github.com/GIP-RECIA/menu-cantine-ui/compare/v0.1.17...v0.1.19) (2024-04-19)
+
+
+### Features
+
+* affichage de 3 logos + img cliquable ([7d5bce7](https://github.com/GIP-RECIA/menu-cantine-ui/commit/7d5bce7f2fd01e0c9c42c29f878ae3538598d75a))
+
+
+### Bug Fixes
+
+* alignement css et placeholder interface admin ([66f931e](https://github.com/GIP-RECIA/menu-cantine-ui/commit/66f931ed14128a140fafc18294b5fb583524d5c5))
+* typo Allergènes ([60e95cc](https://github.com/GIP-RECIA/menu-cantine-ui/commit/60e95cca08ad647b3eb9f3e90fdbbbdcfc28a52b))
+
 ### [0.1.18](https://github.com/GIP-RECIA/menu-cantine-ui/compare/v0.1.17...v0.1.18) (2024-04-19)
 
 
